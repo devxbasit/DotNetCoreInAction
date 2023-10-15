@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/home/basit/.dotnet/store/|arch|/|tfm|",
+      "/home/basit/.nuget/packages"
+    ]
+  }
+}
