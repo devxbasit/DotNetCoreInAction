@@ -18,6 +18,18 @@ namespace Configuration
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                // override the default AppConfiguration
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    var dict = new Dictionary<string, string>
+                    {
+                        { "Message2", "Value from Dictionary" }
+                    };
+
+                    // adding order matters below, same key will get overridden
+                    builder.AddJsonFile("MyConfigAppSettings.json");
+                    builder.AddInMemoryCollection(dict);
+                });
     }
 }
