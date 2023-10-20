@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection", "Depe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration", "Configuration\Configuration.csproj", "{2F2CBCCB-FB55-4A5F-B29D-80A420C587EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingWebApi", "LoggingWebApi\LoggingWebApi.csproj", "{A9A51125-7D40-4805-BE99-80098E8E080B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{2F2CBCCB-FB55-4A5F-B29D-80A420C587EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F2CBCCB-FB55-4A5F-B29D-80A420C587EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F2CBCCB-FB55-4A5F-B29D-80A420C587EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9A51125-7D40-4805-BE99-80098E8E080B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9A51125-7D40-4805-BE99-80098E8E080B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9A51125-7D40-4805-BE99-80098E8E080B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9A51125-7D40-4805-BE99-80098E8E080B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

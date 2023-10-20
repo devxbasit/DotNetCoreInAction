@@ -13,6 +13,8 @@ namespace MiddlewareMvc
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
+
         }
 
         public IConfiguration Configuration { get; }
@@ -22,13 +24,16 @@ namespace MiddlewareMvc
         {
             services.AddControllersWithViews();
             services.AddTransient<ConsoleLoggerMiddleware>();
+            services.AddTransient<RequestPerformanceMiddleware>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<RequestPerformanceMiddleware>();
+            
             app.Map("/favicon.ico", (_) => { });
-
+    
             app.UseMiddleware<ConsoleLoggerMiddleware>();
 
             app.Use(async (context, next) =>
