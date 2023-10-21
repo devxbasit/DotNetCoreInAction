@@ -33,6 +33,7 @@
 /home/basit/Documents/devxbasit@GitHub/DotNetCore/RahulNathPlayList/Configuration/obj/Debug/net5.0/ref/Configuration.dll
 /home/basit/Documents/devxbasit@GitHub/DotNetCoreInAction/RahulNathPlaylist/Configuration/bin/Debug/net5.0/appsettings.Development.json
 /home/basit/Documents/devxbasit@GitHub/DotNetCoreInAction/RahulNathPlaylist/Configuration/bin/Debug/net5.0/appsettings.json
+/home/basit/Documents/devxbasit@GitHub/DotNetCoreInAction/RahulNathPlaylist/Configuration/bin/Debug/net5.0/MyConfigAppSettings.json
 /home/basit/Documents/devxbasit@GitHub/DotNetCoreInAction/RahulNathPlaylist/Configuration/bin/Debug/net5.0/Configuration
 /home/basit/Documents/devxbasit@GitHub/DotNetCoreInAction/RahulNathPlaylist/Configuration/bin/Debug/net5.0/Configuration.deps.json
 /home/basit/Documents/devxbasit@GitHub/DotNetCoreInAction/RahulNathPlaylist/Configuration/bin/Debug/net5.0/Configuration.runtimeconfig.json
@@ -64,4 +65,3 @@
 /home/basit/Documents/devxbasit@GitHub/DotNetCoreInAction/RahulNathPlaylist/Configuration/obj/Debug/net5.0/Configuration.pdb
 /home/basit/Documents/devxbasit@GitHub/DotNetCoreInAction/RahulNathPlaylist/Configuration/obj/Debug/net5.0/Configuration.genruntimeconfig.cache
 /home/basit/Documents/devxbasit@GitHub/DotNetCoreInAction/RahulNathPlaylist/Configuration/obj/Debug/net5.0/ref/Configuration.dll
-/home/basit/Documents/devxbasit@GitHub/DotNetCoreInAction/RahulNathPlaylist/Configuration/bin/Debug/net5.0/MyConfigAppSettings.json
