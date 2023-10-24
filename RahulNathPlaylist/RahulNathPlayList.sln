@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingWebApi", "LoggingWeb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Routing", "Routing\Routing.csproj", "{9FE74A7F-D005-49E9-92D2-C1B15B293325}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelBinding", "ModelBinding\ModelBinding.csproj", "{758BC6DD-6C74-44B1-8D95-4AFE939C87CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{9FE74A7F-D005-49E9-92D2-C1B15B293325}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FE74A7F-D005-49E9-92D2-C1B15B293325}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FE74A7F-D005-49E9-92D2-C1B15B293325}.Release|Any CPU.Build.0 = Release|Any CPU
+		{758BC6DD-6C74-44B1-8D95-4AFE939C87CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{758BC6DD-6C74-44B1-8D95-4AFE939C87CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{758BC6DD-6C74-44B1-8D95-4AFE939C87CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{758BC6DD-6C74-44B1-8D95-4AFE939C87CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
