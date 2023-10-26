@@ -54,7 +54,25 @@ namespace ModelBinding.Controllers
         [HttpGet("[action]")]
         public string XmlTest(Employee employee)
         {
+            // https://localhost:5001/WeatherForecast/XmlTest
+            /*
+             <Employee>
+                <Id>10</Id>
+                <Name>Basit</Name>
+            </Employee> 
+            */
+
             return $"XMl Serialization in Action, id  = {employee.Id}, Name = {employee.Name}";
+        }
+
+        [HttpGet("[action]/{employeeId}")]
+        public Employee GetEmployeeById(int employeeId)
+        {
+            return new Employee()
+            {
+                Id = 10,
+                Name = "Basit"
+            };
         }
     }
 }

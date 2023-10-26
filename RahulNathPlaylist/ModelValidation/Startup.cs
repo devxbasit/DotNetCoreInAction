@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace ModelBinding
+namespace ModelValidation
 {
     public class Startup
     {
@@ -26,11 +20,18 @@ namespace ModelBinding
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddControllers().AddXmlSerializerFormatters();
+            services.AddControllers(options =>
+            {
+                options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+                
+                // https://learn.microsoft.com/en-us/aspnet/core/web-api/advanced/formatting?view=aspnetcore-7.0#content-negotiation-2
+                options.RespectBrowserAcceptHeader = true;
+            }).AddXmlSerializerFormatters();
+
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ModelBinding", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ModelValidation", Version = "v1" });
             });
         }
 
@@ -41,7 +42,7 @@ namespace ModelBinding
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ModelBinding v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ModelValidation v1"));
             }
 
             app.UseHttpsRedirection();
