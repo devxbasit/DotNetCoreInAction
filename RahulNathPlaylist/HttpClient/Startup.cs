@@ -1,4 +1,5 @@
 using System;
+using System.Net.Mime;
 using HttpClient.Interfaces;
 using HttpClient.Services;
 using Microsoft.AspNetCore.Builder;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
 namespace HttpClient
@@ -38,14 +40,14 @@ namespace HttpClient
             {
                 client.BaseAddress = new Uri("http://api.aviationstack.com/v1/");
                 client.Timeout = TimeSpan.FromSeconds(20);
-                client.DefaultRequestHeaders.Add("Accept", "application/xml");
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, MediaTypeNames.Application.Xml);
             });
 
             services.AddHttpClient<IAviationService, AviationService>(client =>
             {
                 client.BaseAddress = new Uri("http://api.aviationstack.com/v1/");
                 client.Timeout = TimeSpan.FromSeconds(20);
-                client.DefaultRequestHeaders.Add("Accept", "application/xml");
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, MediaTypeNames.Application.Xml);
             });
         }
 
