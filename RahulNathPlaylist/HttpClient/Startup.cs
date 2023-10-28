@@ -1,4 +1,6 @@
-using HttpClient.Models;
+using System;
+using HttpClient.Interfaces;
+using HttpClient.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +28,25 @@ namespace HttpClient
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HttpClient", Version = "v1" });
             });
 
-            services.Configure<AviationStackOptions>(Configuration.GetSection(nameof(AviationStackOptions)));
+            // commands for Linux
+            // $ ping api.example.com
+            // $ host api.example.com
+            // $ sudo netstat -ap | grep 2606:4700:3032
+
+            services.AddHttpClient();
+            services.AddHttpClient("AviationStackHttpClient", client =>
+            {
+                client.BaseAddress = new Uri("http://api.aviationstack.com/v1/");
+                client.Timeout = TimeSpan.FromSeconds(20);
+                client.DefaultRequestHeaders.Add("Accept", "application/xml");
+            });
+
+            services.AddHttpClient<IAviationService, AviationService>(client =>
+            {
+                client.BaseAddress = new Uri("http://api.aviationstack.com/v1/");
+                client.Timeout = TimeSpan.FromSeconds(20);
+                client.DefaultRequestHeaders.Add("Accept", "application/xml");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
