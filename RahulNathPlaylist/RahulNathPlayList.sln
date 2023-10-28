@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelBinding", "ModelBindin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelValidation", "ModelValidation\ModelValidation.csproj", "{1E2D6F66-5A24-462D-A217-189038A7544D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClient", "HttpClient\HttpClient.csproj", "{D42D352A-A67E-4400-995A-87BAA8641DC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,5 +56,9 @@ Global
 		{1E2D6F66-5A24-462D-A217-189038A7544D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E2D6F66-5A24-462D-A217-189038A7544D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E2D6F66-5A24-462D-A217-189038A7544D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D42D352A-A67E-4400-995A-87BAA8641DC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D42D352A-A67E-4400-995A-87BAA8641DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D42D352A-A67E-4400-995A-87BAA8641DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D42D352A-A67E-4400-995A-87BAA8641DC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
