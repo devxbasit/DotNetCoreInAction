@@ -1,17 +1,17 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Core.Models;
-using HttpClient.Interfaces;
 using Microsoft.Extensions.Options;
+using Polly.Interfaces;
 
-namespace HttpClient.Services
+namespace Polly.Services
 {
     public class AviationService : IAviationService
     {
-        private readonly System.Net.Http.HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
         private readonly AviationStackOptions _aviationStackOptions;
 
-        public AviationService(System.Net.Http.HttpClient httpClient,
+        public AviationService(HttpClient httpClient,
             IOptions<AviationStackOptions> aviationStackOptions)
         {
             _httpClient = httpClient;

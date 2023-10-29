@@ -1,0 +1,8 @@
+{
+  "CoreAppSettings": {
+    "AviationStackOptions": {
+      "Host": "http://api.aviationstack.com/v1/",
+      "ApiKey": "5520383b1f288d46587c1d481ab2fb08"
+    }
+  }
+}

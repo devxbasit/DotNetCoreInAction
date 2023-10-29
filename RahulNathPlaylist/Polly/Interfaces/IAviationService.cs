@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace HttpClient.Interfaces
+namespace Polly.Interfaces
 {
     public interface IAviationService
     {

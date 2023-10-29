@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelValidation", "ModelVal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClient", "HttpClient\HttpClient.csproj", "{D42D352A-A67E-4400-995A-87BAA8641DC1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polly", "Polly\Polly.csproj", "{66D116CA-0436-4461-BFB8-CFFA7E4E44CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{15ED3A4E-716D-4FD4-9FF5-81E0F0B162BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,5 +64,13 @@ Global
 		{D42D352A-A67E-4400-995A-87BAA8641DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D42D352A-A67E-4400-995A-87BAA8641DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D42D352A-A67E-4400-995A-87BAA8641DC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66D116CA-0436-4461-BFB8-CFFA7E4E44CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66D116CA-0436-4461-BFB8-CFFA7E4E44CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66D116CA-0436-4461-BFB8-CFFA7E4E44CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66D116CA-0436-4461-BFB8-CFFA7E4E44CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15ED3A4E-716D-4FD4-9FF5-81E0F0B162BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15ED3A4E-716D-4FD4-9FF5-81E0F0B162BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15ED3A4E-716D-4FD4-9FF5-81E0F0B162BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15ED3A4E-716D-4FD4-9FF5-81E0F0B162BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

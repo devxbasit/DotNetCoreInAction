@@ -24,7 +24,7 @@ namespace HttpClient.Controllers
         {
             try
             {
-                return await _aviationService.Get(flightStatus);
+                return await _aviationService.GetFlights(flightStatus);
             }
             catch (HttpRequestException ex)
             {

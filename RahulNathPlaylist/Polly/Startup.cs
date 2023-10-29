@@ -1,17 +1,23 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using Core.Models;
-using HttpClient.Interfaces;
-using HttpClient.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Polly.Interfaces;
+using Polly.Services;
 
-namespace HttpClient
+namespace Polly
 {
     public class Startup
     {
@@ -26,34 +32,16 @@ namespace HttpClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HttpClient", Version = "v1" });
-            });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Polly", Version = "v1" }); });
 
             services.Configure<AviationStackOptions>(
                 Configuration.GetSection($"CoreAppSettings:{nameof(AviationStackOptions)}"));
 
-            // commands for Linux
-            // $ ping api.example.com
-            // $ host api.example.com
-            // $ sudo netstat -ap | grep 2606:4700:3032
-
-            services.AddHttpClient();
-            services.AddHttpClient("AviationStackHttpClient", httpClient =>
-            {
-                httpClient.BaseAddress = new Uri(Configuration
-                    .GetSection($"CoreAppSettings:{nameof(AviationStackOptions)}")
-                    .GetValue<string>(nameof(AviationStackOptions.Host)));
-                httpClient.Timeout = TimeSpan.FromSeconds(20);
-                httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, MediaTypeNames.Application.Xml);
-            });
-
             services.AddHttpClient<IAviationService, AviationService>(httpClient =>
             {
-                httpClient.BaseAddress = new Uri(Configuration
-                    .GetSection($"CoreAppSettings:{nameof(AviationStackOptions)}")
-                    .GetValue<string>(nameof(AviationStackOptions.Host)));
+                httpClient.BaseAddress = new Uri(
+                    Configuration.GetSection($"CoreAppSettings:{nameof(AviationStackOptions)}")
+                        .GetValue<string>(nameof(AviationStackOptions.Host)));
                 httpClient.Timeout = TimeSpan.FromSeconds(20);
                 httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, MediaTypeNames.Application.Xml);
             });
@@ -66,7 +54,7 @@ namespace HttpClient
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HttpClient v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Polly v1"));
             }
 
             app.UseHttpsRedirection();

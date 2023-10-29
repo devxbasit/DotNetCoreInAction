@@ -1,7 +1,9 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace HttpClient.Controllers
 {
@@ -10,17 +12,20 @@ namespace HttpClient.Controllers
     public class FlightsController
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly AviationStackOptions _aviationStackOptions;
 
-        public FlightsController(IHttpClientFactory httpClientFactory)
+        public FlightsController(IHttpClientFactory httpClientFactory,
+            IOptions<AviationStackOptions> aviationStackOptions)
         {
             _httpClientFactory = httpClientFactory;
+            _aviationStackOptions = aviationStackOptions?.Value;
         }
 
         // https: //localhost:5001/Flights/Get
         public async Task<string> Get()
         {
             var url = new Uri(
-                "http://api.aviationstack.com/v1/flights?limit=5&access_key=5520383b1f288d46587c1d481ab2fb08");
+                $"http://api.aviationstack.com/v1/flights?limit=5&access_key={_aviationStackOptions.ApiKey}");
 
             try
             {
@@ -50,7 +55,7 @@ namespace HttpClient.Controllers
                 // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-7.0
                 // https://stackoverflow.com/questions/15705092/do-httpclient-and-httpclienthandler-have-to-be-disposed-between-requests
 
-                var path = "flights?limit=5&access_key=5520383b1f288d46587c1d481ab2fb08";
+                var path = $"flights?limit=5&access_key={_aviationStackOptions.ApiKey}";
                 var httpClient = _httpClientFactory.CreateClient("AviationStackHttpClient");
                 var response = await httpClient.GetAsync(path);
                 response.EnsureSuccessStatusCode();
