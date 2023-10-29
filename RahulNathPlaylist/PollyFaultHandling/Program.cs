@@ -18,7 +18,7 @@ namespace Polly
                 .ConfigureAppConfiguration((hostingContext, configBuilder) =>
                 {
                     var coreAppPath = Path.Combine(hostingContext.HostingEnvironment.ContentRootPath, "..", "Core");
-                    configBuilder.AddJsonFile(Path.Combine(coreAppPath, "coreAppSettings.json"));
+                    configBuilder.AddJsonFile(Path.Combine(coreAppPath, "coreAppSettings.json"), optional:false, reloadOnChange: true);
                 });
     }
 }
