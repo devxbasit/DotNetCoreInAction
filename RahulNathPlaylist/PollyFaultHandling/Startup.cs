@@ -32,19 +32,26 @@ namespace Polly
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Polly", Version = "v1" }); });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PollyFaultHandling", Version = "v1" });
+            });
 
             services.Configure<AviationStackOptions>(
                 Configuration.GetSection($"CoreAppSettings:{nameof(AviationStackOptions)}"));
 
             services.AddHttpClient<IAviationService, AviationService>(httpClient =>
-            {
-                httpClient.BaseAddress = new Uri(
-                    Configuration.GetSection($"CoreAppSettings:{nameof(AviationStackOptions)}")
-                        .GetValue<string>(nameof(AviationStackOptions.Host)));
-                httpClient.Timeout = TimeSpan.FromSeconds(20);
-                httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, MediaTypeNames.Application.Xml);
-            });
+                {
+                    httpClient.BaseAddress = new Uri(
+                        Configuration.GetSection($"CoreAppSettings:{nameof(AviationStackOptions)}")
+                            .GetValue<string>(nameof(AviationStackOptions.Host)));
+                    httpClient.Timeout = TimeSpan.FromSeconds(20);
+                    httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, MediaTypeNames.Application.Xml);
+                })
+                .AddTransientHttpErrorPolicy(policyBuilder =>
+                {
+                    return policyBuilder.WaitAndRetryAsync(3, (retryCount => TimeSpan.FromSeconds(retryCount)));
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +61,7 @@ namespace Polly
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Polly v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PollyFaultHandling v1"));
             }
 
             app.UseHttpsRedirection();
