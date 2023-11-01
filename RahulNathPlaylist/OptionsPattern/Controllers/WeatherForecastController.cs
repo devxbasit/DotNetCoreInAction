@@ -13,22 +13,41 @@ namespace OptionsPattern.Controllers
     [Route("[controller]/[action]")]
     public class WeatherForecastController : ControllerBase
     {
-        private readonly WeatherApiOptions _weatherApiOptionsSingleton;
-        private readonly WeatherApiOptions _weatherApiOptionsScoped;
+        private readonly WeatherApiOptions _config1, _config2, _config3;
 
-        public WeatherForecastController(IOptions<WeatherApiOptions> weatherApiOptionsSingleton,
-            IOptionsSnapshot<WeatherApiOptions> weatherApiOptionsScoped)
+        public WeatherForecastController(IOptions<WeatherApiOptions> config1,
+            IOptionsSnapshot<WeatherApiOptions> config2,
+            IOptionsMonitor<WeatherApiOptions> config3)
         {
-            _weatherApiOptionsSingleton = weatherApiOptionsSingleton.Value;
-            _weatherApiOptionsScoped = weatherApiOptionsScoped.Value;
+            try
+            {
+                _config1 = config1.Value;
+                _config2 = config2.Value;
+                _config3 = config3.CurrentValue;
+
+                // register callback 
+                var disposable = config3.OnChange((weatherApiOptions, name) =>
+                {
+                    Console.WriteLine($"url = {weatherApiOptions.Url}, ApiKey = {weatherApiOptions.ApiKey}");
+                });
+
+                // stop listening to changes
+                disposable.Dispose();
+            }
+            catch (OptionsValidationException e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         [HttpGet]
         public string Get()
         {
             var result = "";
-            result += $"Url = {_weatherApiOptionsSingleton.Url}, ApiKey = {_weatherApiOptionsSingleton.ApiKey} \n";
-            result += $"Url = {_weatherApiOptionsScoped.Url}, ApiKey = {_weatherApiOptionsScoped.ApiKey}";
+            result += $"Url = {_config1.Url}, ApiKey = {_config1.ApiKey} \n";
+            result += $"Url = {_config2.Url}, ApiKey = {_config2.ApiKey}\n";
+            result += $"Url = {_config3.Url}, ApiKey = {_config3.ApiKey}";
             return result;
         }
     }

@@ -33,7 +33,7 @@ namespace OptionsPattern
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OptionsPattern", Version = "v1" });
             });
 
-            
+
             //services.Configure<WeatherApiOptions>(Configuration.GetSection(nameof(WeatherApiOptions)));
 
             services.AddOptions<WeatherApiOptions>()

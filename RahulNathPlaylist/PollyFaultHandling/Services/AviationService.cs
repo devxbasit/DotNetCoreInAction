@@ -12,7 +12,7 @@ namespace Polly.Services
         private readonly AviationStackOptions _aviationStackOptions;
 
         public AviationService(HttpClient httpClient,
-            IOptions<AviationStackOptions> aviationStackOptions)
+            IOptionsSnapshot<AviationStackOptions> aviationStackOptions)
         {
             _httpClient = httpClient;
             _aviationStackOptions = aviationStackOptions?.Value;

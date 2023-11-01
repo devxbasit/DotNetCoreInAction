@@ -15,7 +15,7 @@ namespace HttpClient.Controllers
         private readonly AviationStackOptions _aviationStackOptions;
 
         public FlightsController(IHttpClientFactory httpClientFactory,
-            IOptions<AviationStackOptions> aviationStackOptions)
+            IOptionsSnapshot<AviationStackOptions> aviationStackOptions)
         {
             _httpClientFactory = httpClientFactory;
             _aviationStackOptions = aviationStackOptions?.Value;

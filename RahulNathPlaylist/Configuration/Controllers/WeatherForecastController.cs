@@ -22,7 +22,7 @@ namespace Configuration.Controllers
         private readonly AviationStackOptions _aviationStackOptions;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
-            IOptions<AviationStackOptions> aviationStackOptions)
+            IOptionsSnapshot<AviationStackOptions> aviationStackOptions)
         {
             _logger = logger;
             _aviationStackOptions = aviationStackOptions.Value;

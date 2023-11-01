@@ -12,7 +12,7 @@ namespace HttpClient.Services
         private readonly AviationStackOptions _aviationStackOptions;
 
         public AviationService(System.Net.Http.HttpClient httpClient,
-            IOptions<AviationStackOptions> aviationStackOptions)
+            IOptionsSnapshot<AviationStackOptions> aviationStackOptions)
         {
             _httpClient = httpClient;
             _aviationStackOptions = aviationStackOptions?.Value;
