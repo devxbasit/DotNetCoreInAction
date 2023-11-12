@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormatingResponseData", "Fo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filters", "Filters\Filters.csproj", "{990129AB-A42D-4067-9940-0651101F76D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionalHandling", "ExceptionalHandling\ExceptionalHandling.csproj", "{8E2AC8AF-EDA5-46F1-B6EE-B339D0AC2A8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,5 +104,9 @@ Global
 		{990129AB-A42D-4067-9940-0651101F76D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{990129AB-A42D-4067-9940-0651101F76D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{990129AB-A42D-4067-9940-0651101F76D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E2AC8AF-EDA5-46F1-B6EE-B339D0AC2A8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E2AC8AF-EDA5-46F1-B6EE-B339D0AC2A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E2AC8AF-EDA5-46F1-B6EE-B339D0AC2A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E2AC8AF-EDA5-46F1-B6EE-B339D0AC2A8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
