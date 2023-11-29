@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filters", "Filters\Filters.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionalHandling", "ExceptionalHandling\ExceptionalHandling.csproj", "{8E2AC8AF-EDA5-46F1-B6EE-B339D0AC2A8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundService", "BackgroundService\BackgroundService.csproj", "{03456464-4881-4A1D-9EF9-40A6AB428B4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,5 +110,9 @@ Global
 		{8E2AC8AF-EDA5-46F1-B6EE-B339D0AC2A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E2AC8AF-EDA5-46F1-B6EE-B339D0AC2A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E2AC8AF-EDA5-46F1-B6EE-B339D0AC2A8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03456464-4881-4A1D-9EF9-40A6AB428B4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03456464-4881-4A1D-9EF9-40A6AB428B4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03456464-4881-4A1D-9EF9-40A6AB428B4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03456464-4881-4A1D-9EF9-40A6AB428B4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
