@@ -1,5 +1,6 @@
 using AmigoPizzaWebApi.Context;
 using AmigoPizzaWebApi.Entities;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
-builder.Services.AddSingleton<AmigoPizzaContext, AmigoPizzaContext>();
+
+// user-secrets setup 
+// dotnet user-secrets init
+// dotnet user-secrets set "ConnectionStrings:AmigoPizzaConnectionString" "Data Source = localhost,1433; Initial Catalog = AmigoPizza; Integrated Security = false; User Id = sa; Password = docker-147852369; TrustServerCertificate = true"
+
+builder.Services.AddDbContext<AmigoPizzaContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AmigoPizzaConnectionString"));
+});
+
 
 var app = builder.Build();
 

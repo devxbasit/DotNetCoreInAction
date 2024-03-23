@@ -1,6 +1,7 @@
 using AmigoPizzaWebApi.Context;
 using AmigoPizzaWebApi.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AmigoPizzaWebApi.Controllers;
 
@@ -15,30 +16,23 @@ public class ProductController : ControllerBase
         _amigoPizzaContext = amigoPizzaContext;
     }
 
-    // http://localhost:5176/api/v1/Product/AddProduct
-    // {
-    //     "Name": "Speaker",
-    //     "Price": 100
-    // }
     [HttpPost]
     public string AddProduct(Product product)
     {
+        // http://localhost:5176/api/v1/Product/AddProduct
+        // {
+        //     "Name": "Speaker",
+        //     "Price": 100
+        // }
         _amigoPizzaContext.Products.Add(product);
         _amigoPizzaContext.SaveChanges();
         return "Product Added!";
     }
 
-    // http://localhost:5176/api/v1/Product/GetProductList
-    [HttpGet]
-    public IEnumerable<Product> GetProductList(decimal price)
-    {
-        return _amigoPizzaContext.Products;
-    }
-
-    // http://localhost:5176/api/v1/Product/UpdatePrice?productId=2&newPrice=10
     [HttpPatch]
     public string UpdatePrice(int productId, decimal newPrice)
     {
+        // http://localhost:5176/api/v1/Product/UpdatePrice?productId=2&newPrice=10
         var product = _amigoPizzaContext
             .Products
             .FirstOrDefault(p => p.Id == productId);
@@ -53,10 +47,10 @@ public class ProductController : ControllerBase
         return "price updated";
     }
 
-    // http://localhost:5176/api/v1/Product/DeleteProduct?productId=1
     [HttpDelete]
     public string DeleteProduct(int productId)
     {
+        // http://localhost:5176/api/v1/Product/DeleteProduct?productId=1
         var product = _amigoPizzaContext
             .Products
             .FirstOrDefault(p => p.Id == productId);
@@ -70,5 +64,29 @@ public class ProductController : ControllerBase
         _amigoPizzaContext.SaveChanges();
 
         return "Product Deleted";
+    }
+
+    [HttpGet]
+    public IEnumerable<Product> GetProductList(decimal price)
+    {
+        // http://localhost:5176/api/v1/Product/GetProductList
+        return _amigoPizzaContext.Products;
+        //return _amigoPizzaContext.Products.AsNoTracking();
+    }
+    
+    [HttpGet]
+    public Product GetProductById(int productId)
+    {
+        // http://localhost:5176/api/v1/Product/GetProductById?productId=10
+        var product = _amigoPizzaContext
+            .Products
+            .FirstOrDefault(p => p.Id == productId);
+        
+        if (product is null)
+        {
+            throw new Exception("No product found");
+        }
+
+        return product;
     }
 }

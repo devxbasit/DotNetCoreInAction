@@ -1,0 +1,55 @@
+EF Core Guide 
+Install Below Nuget Packages
+1. Microsoft.EntityFrameworkCore
+2. Microsoft.EntityFrameworkCore.SqlServer (https://learn.microsoft.com/en-us/ef/core/providers)
+3. Microsoft.EntityFrameworkCore.Design (for migrations)
+4. Microsoft.EntityFrameworkCore.Tools (for migrations)
+5. 
+6. 
+
+
+
+Define Entities, Add Necessary Data Annotations & Navigation Properties
+[Key] [Required] [StringLength(200)] [ForeignKey("SomeId")] [Column(TypeName ="decimal(6, 2)")]
+
+1:1
+1:M
+M:M
+
+
+
+
+Create a DbContext class & Configure (override OnConfiguring, OnModelCreating)
+
+
+Create migrations
+	Install/Update the .Net Core CLI Tool 
+		dotnet tool install --global dotnet-ef 
+		dotnet tool update 
+		
+	dotnet ef migrations add InitialCreate (it will create migrations folder, see if migrations are correct)
+	dotnet ef database update (it will execute the migrations)
+
+
+Perform CRUD
+Add	- _amigoPizzaContext.Products.Add(product);
+Update	- get target product from context, update that reference, and then save async
+Delete	- get target product from context, _amigoPizzaContext.Products.Remove(product), save async
+GetAll	- _amigoPizzaContext.Products;
+GetById -  _amigoPizzaContext.Products.FirstOrDefault(p => p.Id == productId);
+
+context.SaveChanges();
+context.SaveChangesAsync();
+
+
+
+
+
+
+
+services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+
+
+

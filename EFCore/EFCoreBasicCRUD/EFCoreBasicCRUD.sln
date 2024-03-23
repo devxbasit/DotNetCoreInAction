@@ -4,6 +4,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE4EC8B4-914
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmigoPizzaWebApi", "AmigoPizzaWebApi\AmigoPizzaWebApi.csproj", "{6B9A0449-7581-46AB-9F8B-70A0D444DA63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingWithExistingDatabase", "WorkingWithExistingDatabase\WorkingWithExistingDatabase.csproj", "{5F127F89-1C52-4491-A8E3-77D512BFF7EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -11,11 +13,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6B9A0449-7581-46AB-9F8B-70A0D444DA63} = {BE4EC8B4-914C-492A-9AA3-94EB156BBE25}
+		{5F127F89-1C52-4491-A8E3-77D512BFF7EC} = {BE4EC8B4-914C-492A-9AA3-94EB156BBE25}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6B9A0449-7581-46AB-9F8B-70A0D444DA63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6B9A0449-7581-46AB-9F8B-70A0D444DA63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B9A0449-7581-46AB-9F8B-70A0D444DA63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B9A0449-7581-46AB-9F8B-70A0D444DA63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F127F89-1C52-4491-A8E3-77D512BFF7EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F127F89-1C52-4491-A8E3-77D512BFF7EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F127F89-1C52-4491-A8E3-77D512BFF7EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F127F89-1C52-4491-A8E3-77D512BFF7EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
