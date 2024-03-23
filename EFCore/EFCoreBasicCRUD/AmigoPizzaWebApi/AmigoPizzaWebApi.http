@@ -1,0 +1,6 @@
+@AmigoPizzaWebApi_HostAddress = http://localhost:5176
+
+GET {{AmigoPizzaWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
