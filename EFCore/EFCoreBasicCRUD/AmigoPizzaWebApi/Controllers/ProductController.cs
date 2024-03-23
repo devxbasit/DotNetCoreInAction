@@ -9,41 +9,66 @@ namespace AmigoPizzaWebApi.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly AmigoPizzaContext _amigoPizzaContext;
-    
+
     public ProductController(AmigoPizzaContext amigoPizzaContext)
     {
         _amigoPizzaContext = amigoPizzaContext;
     }
 
     // http://localhost:5176/api/v1/Product/AddProduct
-    [HttpGet]
-    public void AddProduct()
+    // {
+    //     "Name": "Speaker",
+    //     "Price": 100
+    // }
+    [HttpPost]
+    public string AddProduct(Product product)
     {
-        var product1 = new Product()
-        {
-            Name = "Test Product 1",
-            Price = 10
-        };
-
-        var product2 = new Product()
-        {
-            Name = "Test Product 2",
-            Price = 20
-        };
-
-        _amigoPizzaContext.Products.Add(product1);
-        _amigoPizzaContext.Add(product2);
-        _amigoPizzaContext.SaveChangesAsync();
+        _amigoPizzaContext.Products.Add(product);
+        _amigoPizzaContext.SaveChanges();
+        return "Product Added!";
     }
 
-    // http://localhost:5176/api/v1/Product/GetProductsByPrice?price=5
-    public IEnumerable<Product> GetProductsByPrice(decimal price)
+    // http://localhost:5176/api/v1/Product/GetProductList
+    [HttpGet]
+    public IEnumerable<Product> GetProductList(decimal price)
     {
-        var products = from product in _amigoPizzaContext.Products
-            where product.Price > price
-            orderby product.Price descending 
-            select product;
-        
-        return products;
+        return _amigoPizzaContext.Products;
+    }
+
+    // http://localhost:5176/api/v1/Product/UpdatePrice?productId=2&newPrice=10
+    [HttpPatch]
+    public string UpdatePrice(int productId, decimal newPrice)
+    {
+        var product = _amigoPizzaContext
+            .Products
+            .FirstOrDefault(p => p.Id == productId);
+
+        if (product is null)
+        {
+            return "product not found";
+        }
+
+        product.Price = newPrice;
+        _amigoPizzaContext.SaveChanges();
+        return "price updated";
+    }
+
+    // http://localhost:5176/api/v1/Product/DeleteProduct?productId=1
+    [HttpDelete]
+    public string DeleteProduct(int productId)
+    {
+        var product = _amigoPizzaContext
+            .Products
+            .FirstOrDefault(p => p.Id == productId);
+
+        if (product is null)
+        {
+            return $"No product found with id {productId}";
+        }
+
+        _amigoPizzaContext.Products.Remove(product);
+        _amigoPizzaContext.SaveChanges();
+
+        return "Product Deleted";
     }
 }
