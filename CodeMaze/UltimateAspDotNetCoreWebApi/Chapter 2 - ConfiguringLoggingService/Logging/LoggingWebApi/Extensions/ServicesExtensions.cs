@@ -1,12 +1,11 @@
 using Contracts;
 using LoggerService;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
 using Repository;
 using Service;
 using Services.Contracts;
 
-namespace LoggingWebApi.ExtensionMethods;
+namespace LoggingWebApi.Extensions;
 
 public static class ServicesExtensions
 {

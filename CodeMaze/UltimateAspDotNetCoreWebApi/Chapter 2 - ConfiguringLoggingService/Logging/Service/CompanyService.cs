@@ -21,8 +21,11 @@ internal sealed class CompanyService : ICompanyService
 
     public IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges)
     {
-        try
-        {
+        //removed try catch in favour of global exception handler middleware
+        // try
+        // {
+        
+        
             var companies = _repository.CompanyRepository.GetAllCompanies(trackChanges);
 
             // var companiesDto = companies
@@ -31,11 +34,13 @@ internal sealed class CompanyService : ICompanyService
 
             var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
             return companiesDto;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"Something went wrong in the {nameof(GetAllCompanies)} service method {ex}");
-            throw;
-        }
+      
+            
+            // }
+        // catch (Exception ex)
+        // {
+        //     _logger.LogError($"Something went wrong in the {nameof(GetAllCompanies)} service method {ex}");
+        //     throw;
+        // }
     }
 }

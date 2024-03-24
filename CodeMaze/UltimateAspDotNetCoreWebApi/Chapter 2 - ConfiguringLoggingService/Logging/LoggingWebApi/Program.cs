@@ -1,4 +1,6 @@
-using LoggingWebApi.ExtensionMethods;
+using Contracts;
+using LoggingWebApi;
+using LoggingWebApi.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using NLog;
 
@@ -20,18 +22,18 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 
 
 builder.Services.AddAutoMapper(typeof(Program));
-
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
-}
-else
+
+
+// var logger = app.Services.GetRequiredService<ILogManager>();
+// app.ConfigureExceptionHandler(logger);
+app.UseExceptionHandler(opt => { });
+
+if (app.Environment.IsProduction())
 {
     app.UseHsts();
 }
