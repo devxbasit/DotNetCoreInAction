@@ -1,5 +1,6 @@
 using Contracts;
 using LoggerService;
+using LoggingWebApi.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
@@ -58,5 +59,8 @@ public static class ServicesExtensions
             options.UseSqlServer(configuration.GetConnectionString("LoggingDbConnection"));
         });
     }
+    
+    public static IMvcBuilder AddCustomCsvFormatter(this IMvcBuilder builder) =>
+        builder.AddMvcOptions(options => options.OutputFormatters.Add(new CsvOutputFormatter()));
     
 }
