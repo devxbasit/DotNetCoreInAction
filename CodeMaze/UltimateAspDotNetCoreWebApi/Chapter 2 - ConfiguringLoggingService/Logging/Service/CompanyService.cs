@@ -1,6 +1,6 @@
 using AutoMapper;
 using Contracts;
-using Entities.Models;
+using Entities.Exceptions;
 using Services.Contracts;
 using Shared.DataTransferObjects;
 
@@ -21,26 +21,21 @@ internal sealed class CompanyService : ICompanyService
 
     public IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges)
     {
-        //removed try catch in favour of global exception handler middleware
-        // try
-        // {
-        
-        
-            var companies = _repository.CompanyRepository.GetAllCompanies(trackChanges);
+        var companies = _repository.CompanyRepository.GetAllCompanies(trackChanges);
+        var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
+        return companiesDto;
+    }
 
-            // var companiesDto = companies
-            //     .Select(c => new CompanyDto(c.Id, c.Name, c.Address))
-            //     .ToList();
+    public CompanyDto GetCompany(Guid companyId, bool trackChanges)
+    {
+        var company = _repository.CompanyRepository.GetCompany(companyId, trackChanges);
 
-            var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
-            return companiesDto;
-      
-            
-            // }
-        // catch (Exception ex)
-        // {
-        //     _logger.LogError($"Something went wrong in the {nameof(GetAllCompanies)} service method {ex}");
-        //     throw;
-        // }
+        if (company is null)
+        {
+            throw new CompanyNotFoundException(companyId);
+        }
+
+        var companyDto = _mapper.Map<CompanyDto>(company);
+        return companyDto;
     }
 }

@@ -17,17 +17,14 @@ public class CompaniesController : ControllerBase
     [HttpGet]
     public IActionResult GetCompanies()
     {
-        // removed try catch in favor of global exception handler middleware
-        // try
-        // {
-            throw new Exception("Exception");
         var companies = _serviceManager.CompanyService.GetAllCompanies(trackChanges: false);
         return Ok(companies);
+    }
 
-        // }
-        // catch
-        // {
-        //     return StatusCode(500, "Internal server error");
-        // }
+    [HttpGet("{id:guid}")]
+    public IActionResult GetCompany(Guid id)
+    {
+        var company = _serviceManager.CompanyService.GetCompany(id, trackChanges: false);
+        return Ok(company);
     }
 }
