@@ -1,0 +1,14 @@
+EF Core Scafolding - Reverse Engineering
+
+
+
+Intall Nuget Packages
+Microsoft.EntityFrameworkCore.Design
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.EntityFrameworkCore.SqlServer
+
+
+Run Command
+
+dotnet ef dbcontext scaffold "Data Source = localhost,1433; Initial Catalog = AmigoPizza; Integrated Security = false; User Id = sa; Password = docker-147852369; TrustServerCertificate = true" Microsoft.EntityFrameworkCore.SqlServer --context-dir Context --output-dir Entities --data-annotations
+
