@@ -22,4 +22,6 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
         employee.CompanyId = companyId;
         Create(employee);
     }
+
+    public void Delete(Employee employee) => Delete(employee);
 }
