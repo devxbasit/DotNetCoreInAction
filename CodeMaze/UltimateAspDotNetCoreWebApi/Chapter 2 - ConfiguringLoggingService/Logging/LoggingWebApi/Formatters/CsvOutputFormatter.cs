@@ -1,7 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
-using Shared.DataTransferObjects;
+using Shared.DataTransferObjects.ResponseDtos;
 
 namespace LoggingWebApi.Formatters;
 
@@ -22,8 +22,8 @@ public class CsvOutputFormatter : TextOutputFormatter
         // The CanWriteType method is overridden, and it indicates whether
         // or not the CompanyDto type can be written by this serializer.
         
-        if (typeof(CompanyDto).IsAssignableFrom(type) ||
-            typeof(IEnumerable<CompanyDto>).IsAssignableFrom(type))
+        if (typeof(CompanyResponseDto).IsAssignableFrom(type) ||
+            typeof(IEnumerable<CompanyResponseDto>).IsAssignableFrom(type))
         {
             return base.CanWriteType(type);
         }
@@ -36,23 +36,23 @@ public class CsvOutputFormatter : TextOutputFormatter
         var response = context.HttpContext.Response;
         var buffer = new StringBuilder();
 
-        if (context.Object is IEnumerable<CompanyDto>)
+        if (context.Object is IEnumerable<CompanyResponseDto>)
         {
-            foreach (var company in (IEnumerable<CompanyDto>)context.Object)
+            foreach (var company in (IEnumerable<CompanyResponseDto>)context.Object)
             {
-                FormatCsv(buffer, (CompanyDto)company);
+                FormatCsv(buffer, (CompanyResponseDto)company);
             }
         }
         else
         {
-            FormatCsv(buffer, (CompanyDto)context.Object);
+            FormatCsv(buffer, (CompanyResponseDto)context.Object);
         }
 
         await response.WriteAsync(buffer.ToString());
     }
 
-    private static void FormatCsv(StringBuilder buffer, CompanyDto companyDto)
+    private static void FormatCsv(StringBuilder buffer, CompanyResponseDto companyResponseDto)
     {
-        buffer.AppendLine($"{companyDto.Id},\"{companyDto.Name}\",\"{companyDto.FullAddress}\"");
+        buffer.AppendLine($"{companyResponseDto.Id},\"{companyResponseDto.Name}\",\"{companyResponseDto.FullAddress}\"");
     }
 }

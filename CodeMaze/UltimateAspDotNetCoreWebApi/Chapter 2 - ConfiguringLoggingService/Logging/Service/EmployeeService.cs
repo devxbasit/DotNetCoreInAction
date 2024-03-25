@@ -1,8 +1,10 @@
 using AutoMapper;
 using Contracts;
 using Entities.Exceptions;
+using Entities.Models;
 using Services.Contracts;
-using Shared.DataTransferObjects;
+using Shared.DataTransferObjects.RequestDtos;
+using Shared.DataTransferObjects.ResponseDtos;
 
 namespace Service;
 
@@ -19,7 +21,7 @@ internal sealed class EmployeeService : IEmployeeService
         _mapper = mapper;
     }
 
-    public IEnumerable<EmployeeDto> GetEmployees(Guid companyId, bool trackChanges)
+    public IEnumerable<EmployeeResponseDto> GetEmployees(Guid companyId, bool trackChanges)
     {
         var company = _repository.CompanyRepository.GetCompany(companyId, trackChanges);
 
@@ -29,21 +31,34 @@ internal sealed class EmployeeService : IEmployeeService
         }
 
         var employees = _repository.EmployeeRepository.GetEmployees(companyId, trackChanges);
-        var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+        var employeesDto = _mapper.Map<IEnumerable<EmployeeResponseDto>>(employees);
         return employeesDto;
     }
-    
-    public EmployeeDto GetEmployee(Guid companyId, Guid employeeId, bool trackChanges)
+
+    public EmployeeResponseDto GetEmployee(Guid companyId, Guid employeeId, bool trackChanges)
     {
         var company = _repository.CompanyRepository.GetCompany(companyId, trackChanges);
 
         if (company is null) throw new CompanyNotFoundException(companyId);
-        
+
         var employee = _repository.EmployeeRepository.GetEmployee(companyId, employeeId, trackChanges);
 
         if (employee is null) throw new EmployeeNotFoundException(employeeId);
-        
-        var employeeDto = _mapper.Map<EmployeeDto>(employee);
+
+        var employeeDto = _mapper.Map<EmployeeResponseDto>(employee);
         return employeeDto;
+    }
+
+    public EmployeeResponseDto Create(Guid companyId, EmployeeRequestDto employeeRequestDto, bool trackChanges)
+    {
+        var company = _repository.CompanyRepository.GetCompany(companyId, trackChanges);
+        if (company is null) throw new CompanyNotFoundException(companyId);
+
+        var employeeEntity = _mapper.Map<Employee>(employeeRequestDto);
+        _repository.EmployeeRepository.Create(companyId, employeeEntity);
+        _repository.Save();
+
+        var employeeToReturn = _mapper.Map<EmployeeResponseDto>(employeeEntity);
+        return employeeToReturn;
     }
 }

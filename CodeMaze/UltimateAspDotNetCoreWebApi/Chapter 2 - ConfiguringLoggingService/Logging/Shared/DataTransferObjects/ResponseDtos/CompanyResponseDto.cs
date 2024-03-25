@@ -1,6 +1,6 @@
-namespace Shared.DataTransferObjects;
+namespace Shared.DataTransferObjects.ResponseDtos;
 
-public record CompanyDto
+public record CompanyResponseDto
 {
     public Guid Id { get; init; }
     public string? Name { get; init; }

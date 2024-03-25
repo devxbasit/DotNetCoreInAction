@@ -1,9 +1,13 @@
-using Shared.DataTransferObjects;
+using Shared.DataTransferObjects.RequestDtos;
+using Shared.DataTransferObjects.ResponseDtos;
 
 namespace Services.Contracts;
 
 public interface ICompanyService
 {
-    IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges);
-    CompanyDto GetCompany(Guid companyId, bool trackChanges);
+    IEnumerable<CompanyResponseDto> GetAllCompanies(bool trackChanges);
+    CompanyResponseDto GetCompany(Guid companyId, bool trackChanges);
+    CompanyResponseDto CreateCompany(CompanyRequestDto companyRequestDto);
+    IEnumerable<CompanyResponseDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
+    (IEnumerable<CompanyResponseDto> companies, string ids) CreateCompanyCollection(IEnumerable<CompanyRequestDto> companyCollection);
 }

@@ -6,4 +6,6 @@ public interface IEmployeeRepository
 {
     public IEnumerable<Employee> GetEmployees(Guid companyId, bool trackChanges);
     public Employee GetEmployee(Guid companyId, Guid employeeId, bool trackChanges);
+    public void Create(Guid companyId, Employee employee);
+
 }

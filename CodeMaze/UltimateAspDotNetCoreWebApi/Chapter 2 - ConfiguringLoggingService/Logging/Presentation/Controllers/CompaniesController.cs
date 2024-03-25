@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ModelBinders;
 using Services.Contracts;
+using Shared.DataTransferObjects.RequestDtos;
 
 namespace Presentation.Controllers;
 
@@ -21,10 +23,36 @@ public class CompaniesController : ControllerBase
         return Ok(companies);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "CompanyById")]
     public IActionResult GetCompany(Guid id)
     {
         var company = _serviceManager.CompanyService.GetCompany(id, trackChanges: false);
         return Ok(company);
+    }
+
+    [HttpPost]
+    public IActionResult CreateCompany([FromBody] CompanyRequestDto companyRequestDto)
+    {
+        if (companyRequestDto is null)
+            return BadRequest("CompanyRequestDto object is null");
+        var createdCompany = _serviceManager.CompanyService.CreateCompany(companyRequestDto);
+
+        return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
+    }
+
+    [HttpGet("collection/({ids})", Name = "CompanyCollection")]
+    public IActionResult GetCompanyCollection(
+        [ModelBinder(BinderType = typeof(ArrayModelBinder))]
+        IEnumerable<Guid> ids)
+    {
+        var companies = _serviceManager.CompanyService.GetByIds(ids, trackChanges: false);
+        return Ok(companies);
+    }
+
+    [HttpPost("Collection")]
+    public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyRequestDto> companyCollection)
+    {
+        var result = _serviceManager.CompanyService.CreateCompanyCollection(companyCollection);
+        return CreatedAtRoute("CompanyCollection", new { result.ids }, result.companies);
     }
 }
