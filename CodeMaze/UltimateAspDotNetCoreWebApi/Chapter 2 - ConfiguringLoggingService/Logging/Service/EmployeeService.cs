@@ -49,12 +49,12 @@ internal sealed class EmployeeService : IEmployeeService
         return employeeDto;
     }
 
-    public EmployeeResponseDto Create(Guid companyId, EmployeeRequestDto employeeRequestDto, bool trackChanges)
+    public EmployeeResponseDto Create(Guid companyId, EmployeeForCreationRequestDto employeeForCreationRequestDto, bool trackChanges)
     {
         var company = _repository.CompanyRepository.GetCompany(companyId, trackChanges);
         if (company is null) throw new CompanyNotFoundException(companyId);
 
-        var employeeEntity = _mapper.Map<Employee>(employeeRequestDto);
+        var employeeEntity = _mapper.Map<Employee>(employeeForCreationRequestDto);
         _repository.EmployeeRepository.Create(companyId, employeeEntity);
         _repository.Save();
 
@@ -73,6 +73,20 @@ internal sealed class EmployeeService : IEmployeeService
         if (employee is null) throw new EmployeeNotFoundException(employeeId);
 
         _repository.EmployeeRepository.Delete(employee);
+        _repository.Save();
+    }
+
+    public void UpdateEmployee(Guid companyId, Guid employeeId, EmployeeForUpdateRequestDto employeeForUpdateRequest,  bool compTrackChanges, bool empTrackChanges)
+    {
+        var company = _repository.CompanyRepository.GetCompany(companyId, compTrackChanges);
+
+        if (company is null) throw new CompanyNotFoundException(companyId);
+
+        var employeeEntity = _repository.EmployeeRepository.GetEmployee(companyId, employeeId, empTrackChanges);
+
+        if (employeeEntity is null) throw new EmployeeNotFoundException(employeeId);
+
+        _mapper.Map(employeeForUpdateRequest, employeeEntity);
         _repository.Save();
     }
 }

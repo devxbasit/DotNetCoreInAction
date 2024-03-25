@@ -17,11 +17,12 @@ public class MappingProfile : Profile
         CreateMap<Company, CompanyResponseDto>()
             .ForMember(c => c.FullAddress,
                 opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
-        CreateMap<CompanyRequestDto, Company>();
+        CreateMap<CompanyForCreationRequestDto, Company>();
 
         CreateMap<Employee, EmployeeResponseDto>();
-        CreateMap<EmployeeRequestDto, Employee>();
+        CreateMap<EmployeeForCreationRequestDto, Employee>();
 
-        
+        CreateMap<EmployeeForUpdateRequestDto, Employee>();
+        CreateMap<CompanyForUpdateRequestDto, Company>();
     }
 }

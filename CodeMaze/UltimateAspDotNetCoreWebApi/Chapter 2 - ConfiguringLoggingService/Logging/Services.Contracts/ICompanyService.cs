@@ -7,8 +7,9 @@ public interface ICompanyService
 {
     IEnumerable<CompanyResponseDto> GetAllCompanies(bool trackChanges);
     CompanyResponseDto GetCompany(Guid companyId, bool trackChanges);
-    CompanyResponseDto CreateCompany(CompanyRequestDto companyRequestDto);
+    CompanyResponseDto CreateCompany(CompanyForCreationRequestDto companyForCreationRequestDto);
     IEnumerable<CompanyResponseDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
-    (IEnumerable<CompanyResponseDto> companies, string ids) CreateCompanyCollection(IEnumerable<CompanyRequestDto> companyCollection);
+    (IEnumerable<CompanyResponseDto> companies, string ids) CreateCompanyCollection(IEnumerable<CompanyForCreationRequestDto> companyCollection);
     void DeleteCompany(Guid companyId, bool trackChanges);
+    void Update(Guid companyId, CompanyForUpdateRequestDto company, bool trackChange);
 }

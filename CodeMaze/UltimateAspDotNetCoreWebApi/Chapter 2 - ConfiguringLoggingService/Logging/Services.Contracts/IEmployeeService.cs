@@ -7,6 +7,7 @@ public interface IEmployeeService
 {
     public IEnumerable<EmployeeResponseDto> GetEmployees(Guid companyId, bool trackChanges);
     public EmployeeResponseDto GetEmployee(Guid companyId, Guid employeeId, bool trackChanges);
-    public EmployeeResponseDto Create(Guid companyId, EmployeeRequestDto employeeRequestDto, bool trackChanges);
+    public EmployeeResponseDto Create(Guid companyId, EmployeeForCreationRequestDto employeeForCreationRequestDto, bool trackChanges);
     public void Delete(Guid companyId, Guid employeeId, bool trackChanges);
+    void UpdateEmployee(Guid companyId, Guid employeeId, EmployeeForUpdateRequestDto employeeForUpdateRequest, bool compTrackChanges, bool empTrackChanges);
 }

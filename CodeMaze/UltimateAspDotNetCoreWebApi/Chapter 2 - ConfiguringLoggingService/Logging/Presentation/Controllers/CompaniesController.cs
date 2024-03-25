@@ -31,11 +31,11 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateCompany([FromBody] CompanyRequestDto companyRequestDto)
+    public IActionResult CreateCompany([FromBody] CompanyForCreationRequestDto companyForCreationRequestDto)
     {
-        if (companyRequestDto is null)
-            return BadRequest("CompanyRequestDto object is null");
-        var createdCompany = _serviceManager.CompanyService.CreateCompany(companyRequestDto);
+        if (companyForCreationRequestDto is null)
+            return BadRequest("CompanyForCreationRequestDto object is null");
+        var createdCompany = _serviceManager.CompanyService.CreateCompany(companyForCreationRequestDto);
 
         return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
     }
@@ -50,7 +50,7 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpPost("Collection")]
-    public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyRequestDto> companyCollection)
+    public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationRequestDto> companyCollection)
     {
         var result = _serviceManager.CompanyService.CreateCompanyCollection(companyCollection);
         return CreatedAtRoute("CompanyCollection", new { result.ids }, result.companies);
@@ -61,6 +61,15 @@ public class CompaniesController : ControllerBase
     public IActionResult DeleteCompany(Guid companyId)
     {
         _serviceManager.CompanyService.DeleteCompany(companyId, trackChanges: false);
+        return NoContent();
+    }
+
+    [HttpPut("{companyId:guid}")]
+    public IActionResult UpdateCompany(Guid companyId, [FromBody] CompanyForUpdateRequestDto company)
+    {
+        if (company is null) return BadRequest("Company object is null");
+
+        _serviceManager.CompanyService.Update(companyId, company, trackChange: true);
         return NoContent();
     }
 }

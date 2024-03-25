@@ -28,12 +28,13 @@ public class EmployeeController : ControllerBase
         var employee = _serviceManager.EmployeeService.GetEmployee(companyId, employeeId, trackChanges: false);
         return Ok(employee);
     }
-    
-    public IActionResult CreateEmployee(Guid companyId, [FromBody] EmployeeRequestDto employeeRequestDto)
+
+    public IActionResult CreateEmployee(Guid companyId,
+        [FromBody] EmployeeForCreationRequestDto employeeForCreationRequestDto)
     {
-        if (employeeRequestDto is null) return BadRequest("Employee object is null");
+        if (employeeForCreationRequestDto is null) return BadRequest("Employee object is null");
         var employeeToReturn =
-            _serviceManager.EmployeeService.Create(companyId, employeeRequestDto, trackChanges: false);
+            _serviceManager.EmployeeService.Create(companyId, employeeForCreationRequestDto, trackChanges: false);
         return CreatedAtRoute("GetEmployeeForCompany", new { companyId, employeeId = employeeToReturn.Id },
             employeeToReturn);
     }
@@ -42,6 +43,16 @@ public class EmployeeController : ControllerBase
     public IActionResult DeleteEmployee(Guid companyId, Guid employeeId)
     {
         _serviceManager.EmployeeService.Delete(companyId, employeeId, trackChanges: false);
+        return NoContent();
+    }
+
+    [HttpPut("{employeeId:guid}")]
+    public IActionResult Update(Guid companyId, Guid employeeId, [FromBody] EmployeeForUpdateRequestDto employee)
+    {
+        if (employee is null) return BadRequest("Employee object is null");
+
+        _serviceManager.EmployeeService.UpdateEmployee(companyId, employeeId, employee,
+            compTrackChanges: false, empTrackChanges: true);
         return NoContent();
     }
 }
