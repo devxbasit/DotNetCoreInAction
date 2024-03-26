@@ -14,4 +14,8 @@
       <ProjectReference Include="..\Services.Contracts\Services.Contracts.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="8.0.3" />
+    </ItemGroup>
+
 </Project>

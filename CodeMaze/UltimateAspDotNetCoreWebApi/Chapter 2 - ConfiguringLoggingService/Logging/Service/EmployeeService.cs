@@ -49,7 +49,8 @@ internal sealed class EmployeeService : IEmployeeService
         return employeeDto;
     }
 
-    public EmployeeResponseDto Create(Guid companyId, EmployeeForCreationRequestDto employeeForCreationRequestDto, bool trackChanges)
+    public EmployeeResponseDto Create(Guid companyId, EmployeeForCreationRequestDto employeeForCreationRequestDto,
+        bool trackChanges)
     {
         var company = _repository.CompanyRepository.GetCompany(companyId, trackChanges);
         if (company is null) throw new CompanyNotFoundException(companyId);
@@ -76,7 +77,8 @@ internal sealed class EmployeeService : IEmployeeService
         _repository.Save();
     }
 
-    public void UpdateEmployee(Guid companyId, Guid employeeId, EmployeeForUpdateRequestDto employeeForUpdateRequest,  bool compTrackChanges, bool empTrackChanges)
+    public void UpdateEmployee(Guid companyId, Guid employeeId, EmployeeForUpdateRequestDto employeeForUpdateRequest,
+        bool compTrackChanges, bool empTrackChanges)
     {
         var company = _repository.CompanyRepository.GetCompany(companyId, compTrackChanges);
 
@@ -87,6 +89,25 @@ internal sealed class EmployeeService : IEmployeeService
         if (employeeEntity is null) throw new EmployeeNotFoundException(employeeId);
 
         _mapper.Map(employeeForUpdateRequest, employeeEntity);
+        _repository.Save();
+    }
+
+    public (EmployeeForUpdateRequestDto employeeToPatch, Employee employee) GetEmployeeForPatch(Guid companyId,
+        Guid employeeId, bool compTrackChanges, bool empTrackChanges)
+    {
+        var company = _repository.CompanyRepository.GetCompany(companyId, compTrackChanges);
+        if (company is null) throw new CompanyNotFoundException(companyId);
+
+        var employee = _repository.EmployeeRepository.GetEmployee(companyId, employeeId, empTrackChanges);
+        if (employee is null) throw new EmployeeNotFoundException(employeeId);
+
+        var employeeToPatch = _mapper.Map<EmployeeForUpdateRequestDto>(employee);
+        return (employeeToPatch, employee);
+    }
+
+    public void SaveChangesForPatch(EmployeeForUpdateRequestDto employeeToPatch, Employee employee)
+    {
+        _mapper.Map(employeeToPatch, employee);
         _repository.Save();
     }
 }

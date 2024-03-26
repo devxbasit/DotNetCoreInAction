@@ -1,8 +1,9 @@
-using Contracts;
 using LoggingWebApi;
 using LoggingWebApi.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Options;
 using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,15 +16,14 @@ builder.Services.AddControllers(options =>
     {
         options.RespectBrowserAcceptHeader = true;
         options.ReturnHttpNotAcceptable = true;
+
+        options.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
     })
     .AddXmlDataContractSerializerFormatters()
     .AddCustomCsvFormatter()
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 
-builder.Services.Configure<ApiBehaviorOptions>(options =>
-{
-    options.SuppressModelStateInvalidFilter = true;
-});
+builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
@@ -68,3 +68,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.Run();
+
+
+// methods
+NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() =>
+    new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
+        .Services.BuildServiceProvider()
+        .GetRequiredService<IOptions<MvcOptions>>().Value.InputFormatters
+        .OfType<NewtonsoftJsonPatchInputFormatter>().First();

@@ -22,7 +22,7 @@ public class MappingProfile : Profile
         CreateMap<Employee, EmployeeResponseDto>();
         CreateMap<EmployeeForCreationRequestDto, Employee>();
 
-        CreateMap<EmployeeForUpdateRequestDto, Employee>();
+        CreateMap<EmployeeForUpdateRequestDto, Employee>().ReverseMap();
         CreateMap<CompanyForUpdateRequestDto, Company>();
     }
 }

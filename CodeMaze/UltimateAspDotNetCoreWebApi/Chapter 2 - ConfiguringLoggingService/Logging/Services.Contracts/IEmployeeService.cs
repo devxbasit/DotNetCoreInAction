@@ -1,3 +1,4 @@
+using Entities.Models;
 using Shared.DataTransferObjects.RequestDtos;
 using Shared.DataTransferObjects.ResponseDtos;
 
@@ -10,4 +11,6 @@ public interface IEmployeeService
     public EmployeeResponseDto Create(Guid companyId, EmployeeForCreationRequestDto employeeForCreationRequestDto, bool trackChanges);
     public void Delete(Guid companyId, Guid employeeId, bool trackChanges);
     void UpdateEmployee(Guid companyId, Guid employeeId, EmployeeForUpdateRequestDto employeeForUpdateRequest, bool compTrackChanges, bool empTrackChanges);
+    (EmployeeForUpdateRequestDto employeeToPatch, Employee employee) GetEmployeeForPatch(Guid companyId, Guid employeeId, bool compTrackChanges, bool empTrackChanges);
+    void SaveChangesForPatch(EmployeeForUpdateRequestDto employeeToPatch, Employee employee);
 }
