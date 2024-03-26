@@ -34,6 +34,13 @@ public class EmployeeController : ControllerBase
         [FromBody] EmployeeForCreationRequestDto employeeForCreationRequestDto)
     {
         if (employeeForCreationRequestDto is null) return BadRequest("Employee object is null");
+
+        if (!ModelState.IsValid)
+        {
+            ModelState.AddModelError(nameof(employeeForCreationRequestDto.Name), "Added Error Message");
+            return UnprocessableEntity(ModelState);
+        }
+
         var employeeToReturn =
             _serviceManager.EmployeeService.Create(companyId, employeeForCreationRequestDto, trackChanges: false);
         return CreatedAtRoute("GetEmployeeForCompany", new { companyId, employeeId = employeeToReturn.Id },
@@ -52,6 +59,12 @@ public class EmployeeController : ControllerBase
     {
         if (employee is null) return BadRequest("Employee object is null");
 
+        if (!ModelState.IsValid)
+        {
+            ModelState.AddModelError(nameof(employee.Name), "Added Error Message");
+            return UnprocessableEntity(ModelState);
+        }
+
         _serviceManager.EmployeeService.UpdateEmployee(companyId, employeeId, employee,
             compTrackChanges: false, empTrackChanges: true);
         return NoContent();
@@ -66,7 +79,14 @@ public class EmployeeController : ControllerBase
         var result = _serviceManager.EmployeeService
             .GetEmployeeForPatch(companyId, employeeId, compTrackChanges: false, empTrackChanges: true);
 
-        patchDoc.ApplyTo(result.employeeToPatch);
+        // if we patch to remove Age, it will
+        patchDoc.ApplyTo(result.employeeToPatch, ModelState);
+
+        // if we patch to remove Age, re-trigger validation
+        TryValidateModel(result.employeeToPatch);
+
+        if (!ModelState.IsValid) return UnprocessableEntity(ModelState);
+
         _serviceManager.EmployeeService.SaveChangesForPatch(result.employeeToPatch, result.employee);
         return NoContent();
     }

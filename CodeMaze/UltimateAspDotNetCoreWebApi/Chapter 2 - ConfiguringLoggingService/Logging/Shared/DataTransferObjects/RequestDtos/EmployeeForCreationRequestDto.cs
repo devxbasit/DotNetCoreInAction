@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Shared.DataTransferObjects.RequestDtos;
 
-public record EmployeeForCreationRequestDto(string Name, int Age, string Position);
+public record EmployeeForCreationRequestDto : EmployeeForManipulationRequestDto;
