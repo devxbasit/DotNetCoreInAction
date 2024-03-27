@@ -5,6 +5,7 @@ using Entities.Models;
 using Services.Contracts;
 using Shared.DataTransferObjects.RequestDtos;
 using Shared.DataTransferObjects.ResponseDtos;
+using Shared.RequestFeatures;
 
 namespace Service;
 
@@ -21,11 +22,14 @@ internal sealed class CompanyService : ICompanyService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<CompanyResponseDto>> GetAllCompaniesAsync(bool trackChanges)
+    public async Task<(IEnumerable<CompanyResponseDto> companies, MetaData metaData)> GetAllCompaniesAsync(
+        CompanyParameters companyParameters, bool trackChanges)
     {
-        var companies = await _repository.CompanyRepository.GetAllCompaniesAsync(trackChanges);
-        var companiesDto = _mapper.Map<IEnumerable<CompanyResponseDto>>(companies);
-        return companiesDto;
+        var companiesWithMetaData =
+            await _repository.CompanyRepository.GetAllCompaniesAsync(companyParameters, trackChanges);
+
+        var companiesDto = _mapper.Map<IEnumerable<CompanyResponseDto>>(companiesWithMetaData);
+        return (companies: companiesDto, metaData: companiesWithMetaData.MetaData);
     }
 
     public async Task<CompanyResponseDto> GetCompanyAsync(Guid companyId, bool trackChanges)

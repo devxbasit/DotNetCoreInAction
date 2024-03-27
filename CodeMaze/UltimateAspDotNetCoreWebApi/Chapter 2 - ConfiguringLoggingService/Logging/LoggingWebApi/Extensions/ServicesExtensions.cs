@@ -19,7 +19,8 @@ public static class ServicesExtensions
                 builder
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    .AllowAnyHeader()
+                    .WithExposedHeaders("X-Pagination");
 
                 // builder
                 //     .WithOrigins("https://facebook.com", "https://twitter.com")
