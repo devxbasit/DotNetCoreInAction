@@ -1,12 +1,13 @@
 using Entities.Models;
 using Shared.DataTransferObjects.RequestDtos;
 using Shared.DataTransferObjects.ResponseDtos;
+using Shared.RequestFeatures;
 
 namespace Services.Contracts;
 
 public interface IEmployeeService
 {
-    public Task<IEnumerable<EmployeeResponseDto>> GetEmployeesAsync(Guid companyId, bool trackChanges);
+    public Task<(IEnumerable<EmployeeResponseDto> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges);
     public Task<EmployeeResponseDto> GetEmployeeAsync(Guid companyId, Guid employeeId, bool trackChanges);
 
     public Task<EmployeeResponseDto> CreateAsync(Guid companyId, EmployeeForCreationRequestDto employeeForCreationRequestDto,
