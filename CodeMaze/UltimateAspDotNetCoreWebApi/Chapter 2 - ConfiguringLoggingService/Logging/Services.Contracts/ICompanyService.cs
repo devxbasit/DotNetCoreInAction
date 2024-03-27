@@ -12,5 +12,5 @@ public interface ICompanyService
     Task<(IEnumerable<CompanyResponseDto> companies, string ids)> CreateCompanyCollectionAsync(
         IEnumerable<CompanyForCreationRequestDto> companyCollection);
     Task DeleteCompanyAsync(Guid companyId, bool trackChanges);
-    Task UpdateAsync(Guid companyId, CompanyForUpdateRequestDto company, bool trackChange);
+    Task UpdateAsync(Guid companyId, CompanyForUpdateRequestDto company, bool trackChanges);
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contracts;
 using Shared.DataTransferObjects.RequestDtos;
 
@@ -30,17 +31,10 @@ public class EmployeeController : ControllerBase
         return Ok(employee);
     }
 
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateEmployee(Guid companyId,
         [FromBody] EmployeeForCreationRequestDto employeeForCreationRequestDto)
     {
-        if (employeeForCreationRequestDto is null) return BadRequest("Employee object is null");
-
-        if (!ModelState.IsValid)
-        {
-            ModelState.AddModelError(nameof(employeeForCreationRequestDto.Name), "Added Error Message");
-            return UnprocessableEntity(ModelState);
-        }
-
         var employeeToReturn =
             await _serviceManager.EmployeeService.CreateAsync(companyId, employeeForCreationRequestDto, trackChanges: false);
         return CreatedAtRoute("GetEmployeeForCompany", new { companyId, employeeId = employeeToReturn.Id },
@@ -55,6 +49,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPut("{employeeId:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Update(Guid companyId, Guid employeeId,
         [FromBody] EmployeeForUpdateRequestDto employee)
     {

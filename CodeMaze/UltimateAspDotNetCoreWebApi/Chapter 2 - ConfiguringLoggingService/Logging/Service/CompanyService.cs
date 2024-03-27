@@ -30,13 +30,7 @@ internal sealed class CompanyService : ICompanyService
 
     public async Task<CompanyResponseDto> GetCompanyAsync(Guid companyId, bool trackChanges)
     {
-        var company = await _repository.CompanyRepository.GetCompanyAsync(companyId, trackChanges);
-
-        if (company is null)
-        {
-            throw new CompanyNotFoundException(companyId);
-        }
-
+        var company = await GetCompanyAndCheckIfExists(companyId, trackChanges);
         var companyDto = _mapper.Map<CompanyResponseDto>(company);
         return companyDto;
     }
@@ -85,19 +79,22 @@ internal sealed class CompanyService : ICompanyService
 
     public async Task DeleteCompanyAsync(Guid companyId, bool trackChanges)
     {
-        var company = await _repository.CompanyRepository.GetCompanyAsync(companyId, trackChanges);
-
-        if (company is null) throw new CompanyNotFoundException(companyId);
+        var company = await GetCompanyAndCheckIfExists(companyId, trackChanges);
         _repository.CompanyRepository.DeleteCompany(company);
         await _repository.SaveAsync();
     }
 
-    public async Task UpdateAsync(Guid companyId, CompanyForUpdateRequestDto companyForUpdate, bool trackChange)
+    public async Task UpdateAsync(Guid companyId, CompanyForUpdateRequestDto companyForUpdate, bool trackChanges)
     {
-        var companyEntity = await _repository.CompanyRepository.GetCompanyAsync(companyId, trackChange);
-        if (companyEntity is null) throw new CompanyNotFoundException(companyId);
+        var company = await GetCompanyAndCheckIfExists(companyId, trackChanges);
 
-        _mapper.Map(companyForUpdate, companyEntity);
+        _mapper.Map(companyForUpdate, company);
         await _repository.SaveAsync();
+    }
+
+    private async Task<Company> GetCompanyAndCheckIfExists(Guid companyId, bool trackChanges)
+    {
+        var company = await _repository.CompanyRepository.GetCompanyAsync(companyId, trackChanges);
+        return company ?? throw new CompanyNotFoundException(companyId);
     }
 }

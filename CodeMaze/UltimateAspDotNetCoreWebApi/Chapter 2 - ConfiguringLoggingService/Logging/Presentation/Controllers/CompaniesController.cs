@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Presentation.ModelBinders;
 using Services.Contracts;
 using Shared.DataTransferObjects.RequestDtos;
@@ -31,13 +32,19 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationRequestDto companyForCreationRequestDto)
     {
-        if (companyForCreationRequestDto is null)
-            return BadRequest("CompanyForCreationRequestDto object is null");
         var createdCompany = await _serviceManager.CompanyService.CreateCompanyAsync(companyForCreationRequestDto);
-
         return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
+    }
+
+    [HttpPut("{companyId:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> UpdateCompany(Guid companyId, [FromBody] CompanyForUpdateRequestDto company)
+    {
+        await _serviceManager.CompanyService.UpdateAsync(companyId, company, trackChanges: true);
+        return NoContent();
     }
 
     [HttpGet("collection/({ids})", Name = "CompanyCollection")]
@@ -50,7 +57,8 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpPost("Collection")]
-    public async Task<IActionResult> CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationRequestDto> companyCollection)
+    public async Task<IActionResult> CreateCompanyCollection(
+        [FromBody] IEnumerable<CompanyForCreationRequestDto> companyCollection)
     {
         var result = await _serviceManager.CompanyService.CreateCompanyCollectionAsync(companyCollection);
         return CreatedAtRoute("CompanyCollection", new { result.ids }, result.companies);
@@ -61,15 +69,6 @@ public class CompaniesController : ControllerBase
     public async Task<IActionResult> DeleteCompany(Guid companyId)
     {
         await _serviceManager.CompanyService.DeleteCompanyAsync(companyId, trackChanges: false);
-        return NoContent();
-    }
-
-    [HttpPut("{companyId:guid}")]
-    public async Task<IActionResult> UpdateCompany(Guid companyId, [FromBody] CompanyForUpdateRequestDto company)
-    {
-        if (company is null) return BadRequest("Company object is null");
-
-        await _serviceManager.CompanyService.UpdateAsync(companyId, company, trackChange: true);
         return NoContent();
     }
 }
