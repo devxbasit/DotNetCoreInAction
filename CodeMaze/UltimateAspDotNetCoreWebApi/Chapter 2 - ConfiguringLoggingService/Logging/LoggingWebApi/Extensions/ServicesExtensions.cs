@@ -4,7 +4,9 @@ using LoggingWebApi.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
+using Service.DataShaping;
 using Services.Contracts;
+using Shared.DataTransferObjects.ResponseDtos;
 
 namespace LoggingWebApi.Extensions;
 
@@ -59,6 +61,11 @@ public static class ServicesExtensions
         {
             options.UseSqlServer(configuration.GetConnectionString("LoggingDbConnection"));
         });
+    }
+
+    public static void ConfigureDataShaper(this IServiceCollection services)
+    {
+        services.AddScoped<IDataShaper<EmployeeResponseDto>, DataShaper<EmployeeResponseDto>>();
     }
     
     public static IMvcBuilder AddCustomCsvFormatter(this IMvcBuilder builder) =>

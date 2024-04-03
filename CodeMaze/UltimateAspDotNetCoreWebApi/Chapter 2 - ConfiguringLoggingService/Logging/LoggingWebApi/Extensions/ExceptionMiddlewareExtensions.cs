@@ -12,7 +12,7 @@ public static class ExceptionMiddlewareExtensions
         app.UseExceptionHandler(appError =>
         {
             //Terminal middleware - Run()
-            appError.Run(async context =>
+            appError.Run(async context => 
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";

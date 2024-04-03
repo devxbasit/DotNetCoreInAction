@@ -36,6 +36,7 @@ builder.Services.AddScoped<ValidationFilterAttribute>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.ConfigureDataShaper();
 
 var app = builder.Build();
 
