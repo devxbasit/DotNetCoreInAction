@@ -1,4 +1,0 @@
-DotNet Core Best Practices
-
-use a seperate extensions class for startup
-use user-secrets for sensitive info like connection strings

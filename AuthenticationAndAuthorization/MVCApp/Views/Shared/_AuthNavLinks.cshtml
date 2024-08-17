@@ -1,0 +1,12 @@
+@if (!base.User.Identity.IsAuthenticated)
+{
+    <li class="nav-item">
+        <a href="/signin">Sign In</a>
+    </li>
+}
+else
+{ <li class="nav-item">
+      <a href="/signout">Sign Out</a>
+  </li>
+
+}

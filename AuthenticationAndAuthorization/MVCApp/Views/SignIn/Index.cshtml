@@ -1,0 +1,33 @@
+@using System.Collections.Specialized
+@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h1> This page is open to all</h1>
+
+<div class="container">
+    <div style="width: 500px">
+        <form id="signInForm" action="@Url.Action("VerifyUserCredentials", "SignIn")" method="post" >
+            <div class="row">
+                <input type="text" name="username" placeholder="Enter Username" value="test"/>
+            </div>
+            <div class="row">
+                <input type="password" name="password" placeholder="Enter Password" value="test"/>
+            </div>
+
+            <div>
+                <input type="checkbox" value="true" name="rememberMe"/>
+                <label>Remember Me</label>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+@section ScriptsAfter
+{
+<script src="js/SignIn.js"></script>
+}
