@@ -1,3 +1,4 @@
+using SignalRWebApi.BackgroundJobs;
 using SignalRWebApi.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddSignalR();
+builder.Services.AddHostedService<AdminNotificationAlertsService>();
+
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

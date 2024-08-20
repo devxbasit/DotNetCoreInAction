@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   HubConnection,
   HubConnectionBuilder,
   LogLevel,
 } from '@microsoft/signalr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,12 @@ import {
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+  toastrService = inject(ToastrService);
+  isNotifyAdminNotificationOn = false;
   ngModel = {
     name: '',
   };
+
   private _hubConnection: HubConnection;
 
   constructor() {
@@ -25,7 +29,12 @@ export class AppComponent implements OnInit {
     this._hubConnection.start();
 
     this._hubConnection.on('SyncTextBox', (value) => {
-      console.log('value', value);
+      this.ngModel.name = value;
+    });
+
+    this._hubConnection.on('newAdminNotification', (notification: string) => {
+      console.log(notification);
+      this.toastrService.success(notification);
     });
   }
 
@@ -34,5 +43,15 @@ export class AppComponent implements OnInit {
   onSyncTextBox() {
     console.log(this.ngModel);
     this._hubConnection.invoke('SyncTextBox', this.ngModel.name);
+  }
+
+  onNotifyStateChange() {
+    if (this.isNotifyAdminNotificationOn) {
+      this._hubConnection.invoke('StopNotifyAdminNotification');
+    } else {
+      this._hubConnection.invoke('StartNotifyAdminNotification');
+    }
+
+    this.isNotifyAdminNotificationOn = !this.isNotifyAdminNotificationOn;
   }
 }

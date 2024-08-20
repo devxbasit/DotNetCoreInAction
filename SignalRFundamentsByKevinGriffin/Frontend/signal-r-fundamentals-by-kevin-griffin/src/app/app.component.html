@@ -1,2 +1,5 @@
 <input type="text" [(ngModel)]="ngModel.name">
 <button (click)="onSyncTextBox()">Sync text box value</button>
+
+
+<button (click)="onNotifyStateChange()"> {{isNotifyAdminNotificationOn ? "Stop notifying" : "Start Notifying"}}</button>
