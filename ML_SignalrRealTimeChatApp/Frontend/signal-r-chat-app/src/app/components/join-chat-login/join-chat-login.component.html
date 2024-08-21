@@ -1,0 +1,12 @@
+<div style="text-align: center;">
+
+    <div style="display: inline-block; margin: auto; text-align: start;">
+
+        <input type="text" [(ngModel)]="ngModel.username" placeholder="Enter username">
+        <br>
+        <input type="text" [(ngModel)]="ngModel.chatRoom" placeholder="Enter chat room">
+        <br>
+
+        <button [disabled]="ngModel.chatRoom == '' || ngModel.username == ''" (click)="onJoinChat()">Join Chat</button>
+    </div>
+</div>
