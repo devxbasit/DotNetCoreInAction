@@ -7,7 +7,6 @@ namespace FoodOrdering.Worker;
 public class SeedingWorker : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
-
     public SeedingWorker(IServiceScopeFactory scopeFactory)
     {
         _scopeFactory = scopeFactory;
@@ -22,9 +21,6 @@ public class SeedingWorker : BackgroundService
     {
         using IServiceScope scope = _scopeFactory.CreateScope();
         await using AppDbContext context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        await context.Database.EnsureDeletedAsync();
-        await context.Database.MigrateAsync();
-
 
         var foodItems = new List<FoodItem>
         {

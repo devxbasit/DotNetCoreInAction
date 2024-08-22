@@ -1,0 +1,38 @@
+<h1>Table nubmer: {{tableNumber}}</h1>
+
+<h1> Availabe Food</h1>
+
+<div style="overflow: auto; text-align: center; border: 1px solid red;">
+
+    <ng-container *ngFor="let food of availableFood; ">
+        <div style="float: left; width: 300px; height: 300px; border: 1px solid blue; margin: 10px;">
+            <img style="width: 100px; height: auto;" [src]="food.imageUrl">
+            <br>
+            <button [disabled]="!tableNumber" (click)="orderFoodItem(food.id, tableNumber!)">Order
+                {{food.name}}</button>
+            <p>
+                <i>{{ food.description }}</i>
+            </p>
+        </div>
+    </ng-container>
+</div>
+
+<hr>
+
+<div *ngIf="customerActiveOrders.length > 0">
+
+    <h1> Active Orders</h1>
+
+
+    <div style="overflow: auto; text-align: center; border: 1px solid red;">
+        <ng-container *ngFor="let order of customerActiveOrders; ">
+            <div style="float: left; width: 300px; height: 300px; border: 1px solid blue; margin: 10px;">
+                <h1> Stauts: {{order.orderState}}</h1>
+                <img style="width: 100px; height: auto;" [src]="order.foodItem.imageUrl">
+                <p>
+                    {{ order.foodItem.name }} for table {{order.tableNumber}}
+                </p>
+            </div>
+        </ng-container>
+    </div>
+</div>

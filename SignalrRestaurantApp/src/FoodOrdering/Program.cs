@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using FoodOrdering.Context;
 using FoodOrdering.Hubs;
-using FoodOrdering.Hubs.Interface;
 using FoodOrdering.Worker;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +27,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddHostedService<SeedingWorker>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlite("Data Source=mydatabase.sqlite");
+    options.UseInMemoryDatabase(databaseName: "InMemoryDb");
 });
 
 builder.Services.AddMvc().AddJsonOptions(x =>
@@ -51,7 +50,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowPort4200");
 
 app.MapControllers();
-app.MapHub<FoodHub>("/hub/food");
+app.MapHub<FoodHub>("/hub/foodhub");
 
 app.Run();
 

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodOrdering.Controllers;
-[Route("api/[controller]/[action]")]
+[Route("api/kitchen")]
 public class KitchenController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
@@ -16,6 +16,7 @@ public class KitchenController : ControllerBase
     }
 
     [HttpGet]
+    [Route("order/existing")]
     public List<Order> GetExistingOrders()
     {
         var orders = _dbContext.Orders.Include(x => x.FoodItem).Where(x => x.OrderState != OrderState.Completed);
