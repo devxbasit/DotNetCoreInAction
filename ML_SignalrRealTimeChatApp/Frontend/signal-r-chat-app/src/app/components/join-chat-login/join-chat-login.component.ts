@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { IUserConnection } from 'src/app/interface/iuser-connection.interface';
-import { SignalrService } from 'src/app/services/signalr.service';
+import { Router } from '@angular/router';
+import { IUserConnection } from 'src/app/core/interfaces/core.interface';
+import { RealtimeClientService } from 'src/app/core/services/realtime-client.service';
 
 @Component({
   selector: 'app-join-chat-login',
@@ -13,15 +14,16 @@ export class JoinChatLoginComponent {
     chatRoom: '',
   };
 
-  signalRService = inject(SignalrService);
+  realtimeClient = inject(RealtimeClientService);
+  router = inject(Router);
 
-  onJoinChat() {
-    const chatHubConnection = this.signalRService.getChatHubConnection();
+  async onJoinChat() {
+    const isJoinedChatRoom = await this.realtimeClient.joinChatRoom(
+      this.ngModel
+    );
 
-    if (chatHubConnection) {
-      chatHubConnection.start().then(() => {
-        chatHubConnection.invoke('JoinSpecificChatRoom', this.ngModel);
-      });
+    if (isJoinedChatRoom) {
+      this.router.navigateByUrl('/chat');
     }
   }
 }

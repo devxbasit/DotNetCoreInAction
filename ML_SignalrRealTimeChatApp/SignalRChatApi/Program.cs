@@ -8,16 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowPort4200", (options) =>
+    options.AddPolicy("AllowPort4200", (policyBuilder) =>
     {
-        options.WithOrigins("http://localhost:4200")
+        policyBuilder
+            .WithOrigins("http://localhost:4200")
             .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    } );
+            .AllowAnyMethod();
+    });
 });
 
 builder.Services.AddSingleton<SharedDb>();
@@ -34,5 +35,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("AllowPort4200");
 
-app.MapHub<ChatHub>("/hubs/chat");
+app.MapHub<ChatHub>("/hub/chathub");
 app.Run();

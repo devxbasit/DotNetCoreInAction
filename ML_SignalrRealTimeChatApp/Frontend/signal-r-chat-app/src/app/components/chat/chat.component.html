@@ -1,1 +1,11 @@
-<p>chat works!</p>
+<div>
+    <label></label>
+    <input type="text" #message>
+</div>
+<button (click)="sendMessage(message.value)">Send Message</button>
+
+<hr>
+
+<div *ngIf="messages.length > 0" style="border: 1px solid red; ">
+    <li *ngFor="let message of messages"> <strong>{{message.username}} - </strong> {{message.message}}</li>
+</div>
