@@ -1,1 +1,21 @@
-<p>kitchen-dashboard works!</p>
+<div style=" overflow:auto; border:1px solid red; text-align: center;">
+
+    <div *ngFor="let order of activeOrders" style="border: 1px solid red; display: inline-block; float: left;">
+        <p>
+            Food: {{ order.foodItem.name }}
+        </p>
+        <p>
+            Table number: {{ order.tableNumber }}
+        </p>
+        <p>
+            Ordered at: {{ order.orderDate | date:'dd/MM/yyyy H:mm' }}
+        </p>
+
+        <img style="width: 300px; height: auto;" [src]="order.foodItem.imageUrl">
+        <br>
+        <select [(ngModel)]="order.orderState" (change)="updateOrderStatus(order.id, $event)">
+            <option *ngFor="let keyvalue of orderState | keyvalue" [value]="keyvalue.value">{{ keyvalue.value}}
+            </option>
+        </select>
+    </div>
+</div>

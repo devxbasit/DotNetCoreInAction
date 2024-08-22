@@ -42,7 +42,7 @@ export class RealtimeClientService {
     await this.foodHubConnection.invoke('OrderFoodItem', foodRequest);
   }
 
-  async updateFoodItem(orderId: number, state: OrderState) {
+  async updateOrderStatus(orderId: number, state: OrderState) {
     console.log('Updating order status');
     await this.foodHubConnection.invoke('UpdateFoodItemOrder', orderId, state);
   }
