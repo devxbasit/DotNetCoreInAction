@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.Domain", "EntityFrameworkCore.Domain\EntityFrameworkCore.Domain.csproj", "{50F8C1F9-AA76-4535-880D-71B4EBE02977}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.Data", "EntityFrameworkCore.Data\EntityFrameworkCore.Data.csproj", "{A589B844-E7D6-49C6-9250-912D0EE4849E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameCore.ConsoleApp", "EntityFrameCore.ConsoleApp\EntityFrameCore.ConsoleApp.csproj", "{BD08C09B-0CCA-4C1D-8790-E5691B5038F7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50F8C1F9-AA76-4535-880D-71B4EBE02977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50F8C1F9-AA76-4535-880D-71B4EBE02977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50F8C1F9-AA76-4535-880D-71B4EBE02977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50F8C1F9-AA76-4535-880D-71B4EBE02977}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A589B844-E7D6-49C6-9250-912D0EE4849E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A589B844-E7D6-49C6-9250-912D0EE4849E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A589B844-E7D6-49C6-9250-912D0EE4849E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A589B844-E7D6-49C6-9250-912D0EE4849E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD08C09B-0CCA-4C1D-8790-E5691B5038F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD08C09B-0CCA-4C1D-8790-E5691B5038F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD08C09B-0CCA-4C1D-8790-E5691B5038F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD08C09B-0CCA-4C1D-8790-E5691B5038F7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
