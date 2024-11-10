@@ -1,7 +1,9 @@
+using EntityFrameworkCore.Domain.Common;
+
 namespace EntityFrameworkCore.Domain;
 
-public class League
+public class League : BaseDomainEntity
 {
-    public int Id { get; set; }
     public string Name { get; set; } = String.Empty;
+    public List<Team> Teams { get; set; }
 }
