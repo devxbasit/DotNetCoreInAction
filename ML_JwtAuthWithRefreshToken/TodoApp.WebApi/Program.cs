@@ -1,5 +1,8 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TodoApp.WebApi.Configuration;
 using TodoApp.WebApi.Configuration.Options;
 using TodoApp.WebApi.Data;
@@ -27,9 +30,39 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         .EnableSensitiveDataLogging();
 });
 
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => { options.SignIn.RequireConfirmedAccount = true; })
     .AddEntityFrameworkStores<AppDbContext>();
+
+
+builder.Services.Configure<JwtConfigOptions>(builder.Configuration.GetSection("JwtConfigOptions"));
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    var secret = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfigOptions:Secret").Value);
+
+    options.SaveToken = true;
+
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        // this will validate the 3rd part of the jwt token using the secret that we added in the appsettings
+        // and verify we have generated the jwt token
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(secret),
+
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration.GetSection("JwtConfigOptions:Issuer").Value,
+
+        ValidateAudience = false,
+
+        RequireExpirationTime = false,
+
+        ValidateLifetime = true,
+    };
+});
 
 var app = builder.Build();
 
@@ -39,6 +72,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
 
 app.MapControllers();
 app.UseHttpsRedirection();
