@@ -35,18 +35,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => { options.SignIn.Re
 
 
 builder.Services.Configure<JwtConfigOptions>(builder.Configuration.GetSection("JwtConfigOptions"));
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    var secret = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfigOptions:Secret").Value);
 
-    options.SaveToken = true;
 
-    options.TokenValidationParameters = new TokenValidationParameters()
+var secret = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfigOptions:Secret").Value);
+
+var tokenValidationParameters = new TokenValidationParameters()
     {
         // this will validate the 3rd part of the jwt token using the secret that we added in the appsettings
         // and verify we have generated the jwt token
@@ -57,11 +50,32 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration.GetSection("JwtConfigOptions:Issuer").Value,
 
         ValidateAudience = false,
-
         RequireExpirationTime = false,
 
-        ValidateLifetime = true,
+        // This property(ValidateLifetime) specifies whether the lifetime of the token should be validated against the current time.
+        // When set to true, the authentication middleware will check if the token has expired based on its exp claim.
+        // If the current time exceeds this value, the token will be considered invalid.
+        // If set to false, the lifetime of the token will not be validated, meaning that even expired tokens can be accepted as valid.
+        ValidateLifetime = true, // Ensure tokens are checked for expiration
+
+        // It is used to specify the amount of allowable clock skew when validating the expiration time (exp claim) of a token
+        // It accounts for potential discrepancies between the server's clock and the client's clock
+        // Strict Expiration Validation - ensure that no expired tokens are accepted under any circumstances
+        ClockSkew = TimeSpan.Zero
+
     };
+
+builder.Services.AddSingleton(tokenValidationParameters);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(jwtBearerOptions =>
+{
+    jwtBearerOptions.SaveToken = true;
+    jwtBearerOptions.TokenValidationParameters = tokenValidationParameters;
 });
 
 var app = builder.Build();

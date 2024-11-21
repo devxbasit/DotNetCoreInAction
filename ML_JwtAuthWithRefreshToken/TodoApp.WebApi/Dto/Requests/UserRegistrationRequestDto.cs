@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TodoApp.WebApi.Models.Dto.Requests;
+namespace TodoApp.WebApi.Dto.Requests;
 
 public class UserRegistrationRequestDto
 {
