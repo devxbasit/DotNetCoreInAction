@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: color.api.database
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SQL_USER_PASSWORD}
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    networks:
+      - productnetwork
+  colorapi:
+    build: .
+    container_name: color.api
+    depends_on:
+      - sqlserver
+    environment:
+      DbConnectionOptions__Server: sqlserver
+      DbConnectionOptions__Port: 1433
+      DbConnectionOptions__Database: "ColorApiDb"
+      DbConnectionOptions__UserId: "SA"
+      DbConnectionOptions__Password: ${SQL_USER_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks:
+      - productnetwork
+    restart: on-failure
+networks:
+  productnetwork:
+volumes:
+  sqlvolume:
