@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
 using PlatformService.SyncDataServices.Http;
@@ -26,7 +27,10 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+//app.UsePathBase("/api");
+
 //app.UseHttpsRedirection();
+
 app.MapControllers();
 
 app.Run();
