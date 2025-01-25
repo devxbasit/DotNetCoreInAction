@@ -59,7 +59,7 @@ kubectl delete deployment --all
 kubectl delete services --all
 kubectl delete deployment --all --namespace=ingress-nginx
 kubectl delete services --all --namespace=ingress-nginx
-
+kubectl delete pvc --all
 
 # In CommandsService WebApi
 dotnet add package Microsoft.EntityFrameworkCore
@@ -80,8 +80,26 @@ there is some issue with the ingress-nginx
 I have set  "- path: /" instead of  "- path: /api/platform" in ingress-srv.yaml - (some have recommended to use app.UsePathBase("/api");)
 
 # Configuring SQL Server in Both API
+kubectl create secret generic platforms-mssql-secret --from-literal=SA_PASSWORD="pa55word!"
+kubectl describe secret platforms-mssql-secret
+kubectl get secret platforms-mssql-secret -o jsonpath='{.data.*}' | base64 -d
 
+kubectl create secret generic commands-mssql-secret --from-literal=SA_PASSWORD="pa55word!"
+kubectl describe secret commands-mssql-secret
+kubectl get secret commands-mssql-secret -o jsonpath='{.data.*}' | base64 -d
 
+kubectl apply -f platforms-local-pvc.yaml
+kubectl apply -f platforms-mssql-depl.yaml
+
+kubectl apply -f commands-local-pvc.yaml
+kubectl apply -f commands-mssql-depl.yaml
+
+kubectl create secret generic <secret_name> --from-literal=<key>=<value>
+kubectl get secrets
+kubectl describe secret <secret_name>
+kubectl delete secret <secret-name>
+kubectl delete secret --all
+kubectl get pvc
 
 # Configuring RabbitMQ for Async Data Service 
 

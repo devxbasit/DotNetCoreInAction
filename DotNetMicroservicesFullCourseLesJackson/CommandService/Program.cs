@@ -1,9 +1,23 @@
+using CommandService.AsyncDataService;
+using CommandService.Configurations;
+using CommandService.Data;
+using CommandService.EventProcessing;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
+
+builder.Services.Configure<RabbitMqConnectionOptions>(builder.Configuration.GetRequiredSection("RabbitMqConnectionOptions"));
+
+builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
+builder.Services.AddHostedService<MessageBusSubscriber>();
+
+builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
+builder.Services.AddScoped<ICommandRepository, CommandRepository>();
+
 
 var app = builder.Build();
 
