@@ -34,15 +34,17 @@ public class EventProcessor : IEventProcessor
     {
         var platformPublishedDto = JsonSerializer.Deserialize<PlatformPublishedDto>(platformPublishedMessage);
         var platform = _mapper.Map<Platform>(platformPublishedDto);
+        platform.Id = 0;
 
         using var serviceScope = _serviceScopeFactory.CreateScope();
         var platformRepository = serviceScope.ServiceProvider.GetRequiredService<IPlatformRepository>();
 
         var externalPlatformExists = await platformRepository.ExternalPlatformExistsAsync(platform.ExternalId);
 
-        if (!externalPlatformExists)
+        if (externalPlatformExists)
         {
             Console.WriteLine("--> Platform already exists");
+            return;
         }
 
         await platformRepository.CreatePlatformAsync(platform);

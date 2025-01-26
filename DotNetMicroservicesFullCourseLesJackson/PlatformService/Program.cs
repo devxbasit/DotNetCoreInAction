@@ -19,7 +19,10 @@ builder.Services.Configure<RabbitMqConnectionOptions>(builder.Configuration.GetR
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddDbContext<AppDbContext>(options => { options.UseInMemoryDatabase("InMemDb"); });
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetRequiredSection("ConnectionStrings:PlatformApiDbConnectionString").Value);
+});
 
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
