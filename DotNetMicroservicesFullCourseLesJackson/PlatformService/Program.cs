@@ -1,8 +1,10 @@
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using PlatformService;
 using PlatformService.AsyncDataServices.Amqp;
 using PlatformService.Configurations;
 using PlatformService.Data;
+using PlatformService.SyncDataServices.Grpc;
 using PlatformService.SyncDataServices.Http;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +23,11 @@ builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetRequiredSection("ConnectionStrings:PlatformApiDbConnectionString").Value);
+    //options.UseSqlServer(builder.Configuration.GetRequiredSection("ConnectionStrings:PlatformApiDbConnectionString").Value);
+    options.UseInMemoryDatabase("InMemDb");
 });
+
+builder.Services.AddGrpc();
 
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
@@ -37,11 +42,12 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-//app.UsePathBase("/api");
-
 //app.UseHttpsRedirection();
 
+//app.UsePathBase("/api");
+
 app.MapControllers();
+app.MapGrpcService<GrpcPlatformService>();
 
 app.Run();
 
