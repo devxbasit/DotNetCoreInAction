@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 
 // user-secrets setup 
 // dotnet user-secrets init
-// dotnet user-secrets set "ConnectionStrings:AmigoPizzaConnectionString" "Data Source = localhost,1433; Initial Catalog = AmigoPizza; Integrated Security = false; User Id = sa; Password = docker-147852369; TrustServerCertificate = true"
+// dotnet user-secrets set "ConnectionStrings:AmigoPizzaConnectionString" "Data Source = localhost,1433; Initial Catalog = AmigoPizza; Integrated Security = false; User Id = sa; Password = strongPA55WORD!; TrustServerCertificate = true"
 
 builder.Services.AddDbContext<AmigoPizzaContext>(options =>
 {

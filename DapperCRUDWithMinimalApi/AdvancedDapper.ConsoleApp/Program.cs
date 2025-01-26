@@ -14,7 +14,7 @@ namespace AdvancedDapper.ConsoleApp
 
         static Program()
         {
-            _connectionString = "Data Source = localhost,1433; Initial Catalog = DapperCRUDWithMinimalApiDb; Integrated Security = false; User Id = sa; Password = docker-147852369; TrustServerCertificate = true";
+            _connectionString = "Data Source = localhost,1433; Initial Catalog = DapperCRUDWithMinimalApiDb; Integrated Security = false; User Id = sa; Password = strongPA55WORD!; TrustServerCertificate = true";
         }
 
         public static void Main(string[] args)

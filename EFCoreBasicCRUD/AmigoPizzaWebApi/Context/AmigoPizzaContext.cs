@@ -17,7 +17,7 @@ public class AmigoPizzaContext : DbContext
 
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     // {
-    //     string connectionString = "Data Source = localhost,1433; Initial Catalog = AmigoPizza; Integrated Security = false; User Id = sa; Password = docker-147852369; TrustServerCertificate = true";
+    //     string connectionString = "Data Source = localhost,1433; Initial Catalog = AmigoPizza; Integrated Security = false; User Id = sa; Password = strongPA55WORD!; TrustServerCertificate = true";
     //     optionsBuilder.UseSqlServer(connectionString);
     // }
 }

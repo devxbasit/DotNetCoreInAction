@@ -15,7 +15,7 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var connectionString = "Data Source = localhost,1433; Initial Catalog = EfCoreDb_Sahana; Integrated Security = false; User Id = sa; Password = docker-147852369; TrustServerCertificate = true";
+        var connectionString = "Data Source = localhost,1433; Initial Catalog = EfCoreDb_Sahana; Integrated Security = false; User Id = sa; Password = strongPA55WORD!; TrustServerCertificate = true";
 
         // lazy loading with proxies - only virtual marked navigation properties will be loaded lazy
         // optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connectionString);

@@ -10,7 +10,7 @@ public class FootballLeagueDbContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var connectionString = "Data Source = localhost,1433; Initial Catalog = EfCoreDb_Trevoir; Integrated Security = false; User Id = sa; Password = docker-147852369; TrustServerCertificate = true";
+        var connectionString = "Data Source = localhost,1433; Initial Catalog = EfCoreDb_Trevoir; Integrated Security = false; User Id = sa; Password = strongPA55WORD!; TrustServerCertificate = true";
 
         optionsBuilder.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions => { sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null); })
             .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
