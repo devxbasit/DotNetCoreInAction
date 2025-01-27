@@ -11,7 +11,7 @@ using PlatformService.Data;
 namespace PlatformService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250126114042_InitialMigration")]
+    [Migration("20250127175922_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

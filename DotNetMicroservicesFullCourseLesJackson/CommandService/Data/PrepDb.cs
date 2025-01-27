@@ -16,6 +16,10 @@ public static class PrepDb
         {
             await SeedData(serviceScope.ServiceProvider.GetRequiredService<IPlatformRepository>(), platforms);
         }
+        else
+        {
+            Console.WriteLine("--> GRPC null data received!");
+        }
     }
 
     private static async Task SeedData(IPlatformRepository platformRepository, IEnumerable<Platform> platforms)

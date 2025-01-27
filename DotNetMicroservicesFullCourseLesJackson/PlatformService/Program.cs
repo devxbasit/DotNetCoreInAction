@@ -23,8 +23,8 @@ builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    //options.UseSqlServer(builder.Configuration.GetRequiredSection("ConnectionStrings:PlatformApiDbConnectionString").Value);
-    options.UseInMemoryDatabase("InMemDb");
+    options.UseSqlServer(builder.Configuration.GetRequiredSection("ConnectionStrings:PlatformApiDbConnectionString").Value);
+    //options.UseInMemoryDatabase("InMemDb");
 });
 
 builder.Services.AddGrpc();
@@ -34,7 +34,7 @@ builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
 
 var app = builder.Build();
 
-PrepDb.PrePopulation(app);
+PrepDb.PrePopulation(app, app.Environment);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -43,10 +43,13 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-
 //app.UsePathBase("/api");
 
 app.MapControllers();
+app.MapGet("/protos/platforms.proto", async (context) =>
+{
+    await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.proto"));
+});
 app.MapGrpcService<GrpcPlatformService>();
 
 app.Run();

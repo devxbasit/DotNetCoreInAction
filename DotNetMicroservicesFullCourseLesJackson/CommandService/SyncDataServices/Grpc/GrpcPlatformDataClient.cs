@@ -14,6 +14,8 @@ public class GrpcPlatformDataClient : IPlatformDataClient
     {
         _configuration = configuration;
         _mapper = mapper;
+        Console.WriteLine("--> Grpc Client ready.");
+
     }
 
     public async Task<IEnumerable<Platform>?> ReturnAllPlatforms()
@@ -28,6 +30,7 @@ public class GrpcPlatformDataClient : IPlatformDataClient
         try
         {
             var reply = await client.GetAllPlatformsGrpcAsync(request);
+            Console.WriteLine("--> Grpc Client: response received!");
             return _mapper.Map<IEnumerable<Platform>>(reply.Platforms);
         }
         catch (Exception ex)

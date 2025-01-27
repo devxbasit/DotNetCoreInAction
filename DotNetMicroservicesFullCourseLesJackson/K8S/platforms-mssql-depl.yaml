@@ -27,7 +27,7 @@ spec:
                   name: platforms-mssql-secret
                   key: SA_PASSWORD
           volumeMounts:
-            - mountPath: /var/opt/mssql/data/platforms
+            - mountPath: /var/opt/mssql
               name: platforms-mssqldb-volume
       volumes:
         - name: platforms-mssqldb-volume

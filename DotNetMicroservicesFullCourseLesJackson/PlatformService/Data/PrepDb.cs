@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PlatformService.Models;
 using static System.Console;
 
@@ -5,14 +6,29 @@ namespace PlatformService.Data;
 
 public static class PrepDb
 {
-    public static void PrePopulation(IApplicationBuilder app)
+    public static void PrePopulation(IApplicationBuilder app, IWebHostEnvironment env)
     {
         using IServiceScope serviceScope = app.ApplicationServices.CreateScope();
-        SeedData(serviceScope.ServiceProvider.GetRequiredService<AppDbContext>());
+        SeedData(serviceScope.ServiceProvider.GetRequiredService<AppDbContext>(), env);
     }
 
-    private static void SeedData(AppDbContext dbContext)
+    private static void SeedData(AppDbContext dbContext, IWebHostEnvironment env)
     {
+        if (env.IsProduction() && dbContext.Database.GetMigrations().Any())
+        {
+            try
+            {
+                Console.WriteLine("Attempting to run migrations...");
+                dbContext.Database.Migrate();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Could not run migrations: {ex.Message}");
+                throw;
+            }
+        }
+
+
         if (!dbContext.Platforms.Any())
         {
             WriteLine("--> Seeding Data...");
@@ -24,10 +40,11 @@ public static class PrepDb
             );
 
             dbContext.SaveChanges();
+            dbContext.Database.Migrate();
         }
         else
         {
-            WriteLine("--> we already have platforms data");
+            WriteLine("--> Platforms data is already present, skipping data seeding!");
         }
     }
 }

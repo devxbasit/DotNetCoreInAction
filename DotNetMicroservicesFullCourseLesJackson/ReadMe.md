@@ -11,7 +11,6 @@ dotnet add Microsoft.EntityFrameworkCore.sqlserver
 
 setup PlatformController, models, dtos, automapper profile, AppDbContext, Initial data seeding, IPlatform Repository
 
-
 # Docker In Action
 
 docker build -t devxbasit/platformservice .
@@ -80,19 +79,20 @@ there is some issue with the ingress-nginx
 I have set  "- path: /" instead of  "- path: /api/platform" in ingress-srv.yaml - (some have recommended to use app.UsePathBase("/api");)
 
 # Configuring SQL Server in Both API
-kubectl create secret generic platforms-mssql-secret --from-literal=SA_PASSWORD="pa55word!"
-kubectl describe secret platforms-mssql-secret
-kubectl get secret platforms-mssql-secret -o jsonpath='{.data.*}' | base64 -d
+kubectl create secret generic platforms-mssql-secret --from-literal=SA_PASSWORD="strongPA55WORD!"
+kubectl create secret generic commands-mssql-secret --from-literal=SA_PASSWORD="strongPA55WORD!"
 
-kubectl create secret generic commands-mssql-secret --from-literal=SA_PASSWORD="pa55word!"
+kubectl describe secret platforms-mssql-secret
 kubectl describe secret commands-mssql-secret
+
+kubectl get secret platforms-mssql-secret -o jsonpath='{.data.*}' | base64 -d
 kubectl get secret commands-mssql-secret -o jsonpath='{.data.*}' | base64 -d
 
 kubectl apply -f platforms-local-pvc.yaml
 kubectl apply -f platforms-mssql-depl.yaml
 
-kubectl apply -f commands-local-pvc.yaml
-kubectl apply -f commands-mssql-depl.yaml
+--kubectl apply -f commands-local-pvc.yaml
+--kubectl apply -f commands-mssql-depl.yaml
 
 kubectl create secret generic <secret_name> --from-literal=<key>=<value>
 kubectl get secrets
@@ -101,7 +101,52 @@ kubectl delete secret <secret-name>
 kubectl delete secret --all
 kubectl get pvc
 
-# Configuring RabbitMQ for Async Data Service 
+# Configuring RabbitMQ for Async Data Service
+
+kubectl apply -f rabbitmq-depl.yaml
+
 
 # Configuring GRPC for Sync Data Service
+Trust dotnet https development certificates on Linux OS
 
+Step 1: Add below line to bashrc
+export SSL_CERT_DIR=$HOME/.aspnet/dev-certs/trust:/usr/lib/ssl/certs
+
+Step 2: run below commands
+sudo apt install libnss3-tools
+dotnet dev-certs https --trust
+dotnet tool install -g linux-dev-certs
+dotnet linux-dev-certs install
+
+
+
+# Start all
+docker build -t devxbasit/platformservice .
+docker push devxbasit/platformservice
+docker build -t devxbasit/commandservice .
+docker push devxbasit/commandservice
+
+kubectl apply -f platforms-local-pvc.yaml
+kubectl apply -f platforms-mssql-depl.yaml
+kubectl apply -f rabbitmq-depl.yaml
+
+kubectl apply -f platforms-depl.yaml
+kubectl apply -f platforms-np-srv.yaml
+kubectl apply -f commands-depl.yaml
+kubectl apply -f commands-np-srv.yaml
+
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f ingress-srv.yaml
+
+# Stop all
+kubectl delete -f platforms-depl.yaml
+kubectl delete -f platforms-np-srv.yaml
+kubectl delete -f commands-depl.yaml
+kubectl delete -f commands-np-srv.yaml
+
+kubectl delete deployment --all
+kubectl delete services --all
+kubectl delete deployment --all --namespace=ingress-nginx
+kubectl delete services --all --namespace=ingress-nginx
+kubectl delete pvc --all
