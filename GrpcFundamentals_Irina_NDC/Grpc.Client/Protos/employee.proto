@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option csharp_namespace = "EmployeeGrpc";
+
+package greet;
+
+service EmployeeGrpcService {
+  rpc SayHello (AddEmployeeRequest) returns (AddEmployeeResponse);
+
+  rpc ServerStream (AddEmployeeRequest) returns (stream AddEmployeeResponse);
+  rpc ClientStream (stream AddEmployeeRequest) returns (AddEmployeeResponse);
+  rpc BiDirectionalStream (stream AddEmployeeRequest) returns (stream AddEmployeeResponse);
+}
+
+message EmployeeGrpcModel {
+  string EmployeeName = 1;
+  int32 EmployeeSalary = 2;
+}
+
+message AddEmployeeRequest{
+  EmployeeGrpcModel Employee = 1;
+}
+
+message AddEmployeeResponse{
+  int32 EmployeeId = 1;
+  string EmployeeName = 2;
+}
